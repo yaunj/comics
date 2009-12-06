@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating new crawlers &mdash; comics v1.0a0 documentation</title>
+    <link rel="stylesheet" href="static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0a0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="comics v1.0a0 documentation" href="index.html" />
+    <link rel="next" title="Deployment" href="deployment.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="deployment.html" title="Deployment"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">comics v1.0a0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="creating-new-crawlers">
+<h1>Creating new crawlers<a class="headerlink" href="#creating-new-crawlers" title="Permalink to this headline">¶</a></h1>
+<p>For each comic <em>comics</em> is aggregating, we need to create a crawler. At the
+time of writing, about 100 crawlers are available in the
+<tt class="docutils literal"><span class="pre">comics/comics/comics/</span></tt> directory. They serve as a great source for learning
+how to write new crawlers for <em>comics</em>.</p>
+<div class="section" id="a-crawler-example">
+<h2>A crawler example<a class="headerlink" href="#a-crawler-example" title="Permalink to this headline">¶</a></h2>
+<p>The crawlers are split in two separate pieces. The <tt class="docutils literal"><span class="pre">Meta</span></tt> part contains meta
+data about the comic used for display at the web site. The <tt class="docutils literal"><span class="pre">Crawler</span></tt> part
+contains properties needed for crawling and the crawler implementation itself.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">comics.aggregator.crawler</span> <span class="kn">import</span> <span class="n">CrawlerBase</span><span class="p">,</span> <span class="n">CrawlerResult</span>
+<span class="kn">from</span> <span class="nn">comics.meta.base</span> <span class="kn">import</span> <span class="n">MetaBase</span>
+
+<span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">MetaBase</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;xkcd&#39;</span>
+    <span class="n">language</span> <span class="o">=</span> <span class="s">&#39;en&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://www.xkcd.com/&#39;</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="s">&#39;2005-05-29&#39;</span>
+    <span class="n">rights</span> <span class="o">=</span> <span class="s">&#39;Randall Munroe, CC BY-NC 2.5&#39;</span>
+
+<span class="k">class</span> <span class="nc">Crawler</span><span class="p">(</span><span class="n">CrawlerBase</span><span class="p">):</span>
+    <span class="n">history_capable_days</span> <span class="o">=</span> <span class="mf">10</span>
+    <span class="n">schedule</span> <span class="o">=</span> <span class="s">&#39;Mo,We,Fr&#39;</span>
+    <span class="n">time_zone</span> <span class="o">=</span> <span class="o">-</span><span class="mf">5</span>
+
+    <span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
+        <span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://www.xkcd.com/rss.xml&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">title</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">alt</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-meta-class-fields">
+<h2>The <tt class="docutils literal"><span class="pre">Meta</span></tt> class fields<a class="headerlink" href="#the-meta-class-fields" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">Meta.name</span></tt></dt>
+<dd><em>Required.</em> A string with the name of the comic.</dd>
+<dt><tt class="docutils literal"><span class="pre">Meta.language</span></tt></dt>
+<dd><p class="first"><em>Required.</em> A two-letter string with the language code for the language
+used in the comic. Typically <tt class="docutils literal"><span class="pre">'en'</span></tt> or <tt class="docutils literal"><span class="pre">'no'</span></tt>.</p>
+<p class="last">Code must also be present in <tt class="docutils literal"><span class="pre">comics.core.models.Comic.LANGUAGES</span></tt>.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">Meta.url</span></tt></dt>
+<dd><em>Required.</em> A string with the URL of the comic&#8217;s web page.</dd>
+<dt><tt class="docutils literal"><span class="pre">Meta.start_date</span></tt></dt>
+<dd><em>Optional.</em> The first date the comic was published at.</dd>
+<dt><tt class="docutils literal"><span class="pre">Meta.end_date</span></tt></dt>
+<dd><em>Optional.</em> The last date the comic was published at if it is discontinued.</dd>
+<dt><tt class="docutils literal"><span class="pre">Meta.rights</span></tt></dt>
+<dd><em>Optional.</em> Name of the author and the comic&#8217;s license if available.</dd>
+</dl>
+</div>
+<div class="section" id="the-crawler-class-fields">
+<h2>The <tt class="docutils literal"><span class="pre">Crawler</span></tt> class fields<a class="headerlink" href="#the-crawler-class-fields" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fields-used-for-crawling">
+<h3>Fields used for crawling<a class="headerlink" href="#fields-used-for-crawling" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">Crawler.history_capable_date</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> Date of oldest release available for crawling. Provide this
+<em>or</em> <tt class="docutils literal"><span class="pre">Crawler.history_capable_days</span></tt>. If both are present, this one will
+have precedence.</p>
+<p class="last">Example: <tt class="docutils literal"><span class="pre">'2008-03-08'</span></tt>.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">Crawler.history_capable_days</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> Number of days a release is available for crawling. Provide
+this <em>or</em> <tt class="docutils literal"><span class="pre">Crawler.history_capable_date</span></tt>.</p>
+<p class="last">Example: <tt class="docutils literal"><span class="pre">32</span></tt>.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">Crawler.schedule</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> On what weekdays the comic is published.</p>
+<p class="last">Example: <tt class="docutils literal"><span class="pre">'Mo,We,Fr'</span></tt> or <tt class="docutils literal"><span class="pre">'Mo,Tu,We,Th,Fr,Sa,Su'</span></tt>.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">Crawler.time_zone</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> In approximately what time zone (in whole hours relative to
+UTC, without regard to DST) the comic is published.</p>
+<p class="last">Example: <tt class="docutils literal"><span class="pre">1</span></tt> for central Europe or <tt class="docutils literal"><span class="pre">-5</span></tt> for eastern U.S.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">Crawler.multiple_releases_per_day</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether to allow multiple strip releases
+per a day.</p>
+<p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="fields-used-for-downloading">
+<h3>Fields used for downloading<a class="headerlink" href="#fields-used-for-downloading" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">Crawler.has_rerun_releases</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether the comic reruns old strips as new
+releases.</p>
+<p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">Crawler.check_image_mime_type</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">True</span></tt>. Whether to check the mime type of the strip
+image when downloading.</p>
+<p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="the-crawler-crawl-method">
+<h2>The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method<a class="headerlink" href="#the-crawler-crawl-method" title="Permalink to this headline">¶</a></h2>
+<p><strong>TODO</strong></p>
+<div class="section" id="the-web-and-feed-parsers">
+<h3>The web and feed parsers<a class="headerlink" href="#the-web-and-feed-parsers" title="Permalink to this headline">¶</a></h3>
+<p><strong>TODO</strong></p>
+</div>
+<div class="section" id="extracting-data-from-html-using-css-selectors">
+<h3>Extracting data from HTML using CSS selectors<a class="headerlink" href="#extracting-data-from-html-using-css-selectors" title="Permalink to this headline">¶</a></h3>
+<p><strong>TODO</strong></p>
+<p><strong>References:</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="http://css.maxdesign.com.au/selectutorial/">http://css.maxdesign.com.au/selectutorial/</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Creating new crawlers</a><ul>
+<li><a class="reference external" href="#a-crawler-example">A crawler example</a></li>
+<li><a class="reference external" href="#the-meta-class-fields">The <tt class="docutils literal"><span class="pre">Meta</span></tt> class fields</a></li>
+<li><a class="reference external" href="#the-crawler-class-fields">The <tt class="docutils literal"><span class="pre">Crawler</span></tt> class fields</a><ul>
+<li><a class="reference external" href="#fields-used-for-crawling">Fields used for crawling</a></li>
+<li><a class="reference external" href="#fields-used-for-downloading">Fields used for downloading</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#the-crawler-crawl-method">The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method</a><ul>
+<li><a class="reference external" href="#the-web-and-feed-parsers">The web and feed parsers</a></li>
+<li><a class="reference external" href="#extracting-data-from-html-using-css-selectors">Extracting data from HTML using CSS selectors</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="installation.html"
+                                  title="previous chapter">Installation</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="deployment.html"
+                                  title="next chapter">Deployment</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="deployment.html" title="Deployment"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             >previous</a> |</li>
+        <li><a href="index.html">comics v1.0a0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Stein Magnus Jodal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

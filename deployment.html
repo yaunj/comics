@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Todo &mdash; comics v1.0a0 documentation</title>
+    <title>Deployment &mdash; comics v1.0a0 documentation</title>
     <link rel="stylesheet" href="static/nature.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -20,8 +20,8 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="top" title="comics v1.0a0 documentation" href="index.html" />
-    <link rel="next" title="Spec: Crawler meta data in Python code" href="specs/crawler-meta.html" />
-    <link rel="prev" title="Contributing" href="contributing.html" /> 
+    <link rel="next" title="Development" href="development.html" />
+    <link rel="prev" title="Creating new crawlers" href="crawlers.html" /> 
   </head>
   <body>
     <div class="related">
@@ -31,10 +31,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="specs/crawler-meta.html" title="Spec: Crawler meta data in Python code"
+          <a href="development.html" title="Development"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="contributing.html" title="Contributing"
+          <a href="crawlers.html" title="Creating new crawlers"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">comics v1.0a0 documentation</a> &raquo;</li> 
       </ul>
@@ -45,37 +45,19 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="todo">
-<h1>Todo<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h1>
-<p>A mostly unordered list of things to fix. Patches accepted.</p>
-<div class="section" id="improvements">
-<h2>Improvements<a class="headerlink" href="#improvements" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>comics.comics.pennyarcade:
-Move web page string decoding to comics.aggregator.lxmlparser.</li>
-<li>comics.aggregator.crawler._decode_feed_data():
-Move feed string decoding to comics.aggregator.feedparser/lxmlparser.</li>
-<li>comics.aggregator.crawler._get_date_to_crawl():
-Use comics time zone to crawl the correct current date.</li>
-<li>comics.aggregator.command:
-Use comic week schedule to crawl less often on non-schedule days.</li>
-<li>comics.core.utils.navigation:
-Unit test and refactor.</li>
-</ul>
+  <div class="section" id="deployment">
+<h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="apache-vhost-example">
+<h2>Apache vhost example<a class="headerlink" href="#apache-vhost-example" title="Permalink to this headline">¶</a></h2>
+<p><strong>TODO</strong></p>
 </div>
-<div class="section" id="new-features">
-<h2>New features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><dl class="first docutils">
-<dt>Support multiple strips per comic per day, which requires:</dt>
-<dd><ul class="first last simple">
-<li>Change of naming scheme for image files from date to checksum.</li>
-<li>Optionally support for returning multiple CrawlerResults from one crawl().</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
+<div class="section" id="wsgi-setup-example">
+<h2>WSGI setup example<a class="headerlink" href="#wsgi-setup-example" title="Permalink to this headline">¶</a></h2>
+<p><strong>TODO</strong></p>
+</div>
+<div class="section" id="comics-settings-example">
+<h2><em>comics</em> settings example<a class="headerlink" href="#comics-settings-example" title="Permalink to this headline">¶</a></h2>
+<p><strong>TODO</strong></p>
 </div>
 </div>
 
@@ -87,19 +69,20 @@ Unit test and refactor.</li>
         <div class="sphinxsidebarwrapper">
             <h3><a href="index.html">Table Of Contents</a></h3>
             <ul>
-<li><a class="reference external" href="">Todo</a><ul>
-<li><a class="reference external" href="#improvements">Improvements</a></li>
-<li><a class="reference external" href="#new-features">New features</a></li>
+<li><a class="reference external" href="">Deployment</a><ul>
+<li><a class="reference external" href="#apache-vhost-example">Apache vhost example</a></li>
+<li><a class="reference external" href="#wsgi-setup-example">WSGI setup example</a></li>
+<li><a class="reference external" href="#comics-settings-example"><em>comics</em> settings example</a></li>
 </ul>
 </li>
 </ul>
 
             <h4>Previous topic</h4>
-            <p class="topless"><a href="contributing.html"
-                                  title="previous chapter">Contributing</a></p>
+            <p class="topless"><a href="crawlers.html"
+                                  title="previous chapter">Creating new crawlers</a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="specs/crawler-meta.html"
-                                  title="next chapter">Spec: Crawler meta data in Python code</a></p>
+            <p class="topless"><a href="development.html"
+                                  title="next chapter">Development</a></p>
           <div id="searchbox" style="display: none">
             <h3>Quick search</h3>
               <form class="search" action="search.html" method="get">
@@ -124,10 +107,10 @@ Unit test and refactor.</li>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="specs/crawler-meta.html" title="Spec: Crawler meta data in Python code"
+          <a href="development.html" title="Development"
              >next</a> |</li>
         <li class="right" >
-          <a href="contributing.html" title="Contributing"
+          <a href="crawlers.html" title="Creating new crawlers"
              >previous</a> |</li>
         <li><a href="index.html">comics v1.0a0 documentation</a> &raquo;</li> 
       </ul>

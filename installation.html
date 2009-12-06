@@ -20,8 +20,8 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="top" title="comics v1.0a0 documentation" href="index.html" />
-    <link rel="next" title="Usage" href="usage.html" />
-    <link rel="prev" title="comics" href="index.html" /> 
+    <link rel="next" title="Creating new crawlers" href="crawlers.html" />
+    <link rel="prev" title="Changes" href="changes.html" /> 
   </head>
   <body>
     <div class="related">
@@ -31,10 +31,10 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="usage.html" title="Usage"
+          <a href="crawlers.html" title="Creating new crawlers"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="comics"
+          <a href="changes.html" title="Changes"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">comics v1.0a0 documentation</a> &raquo;</li> 
       </ul>
@@ -47,40 +47,89 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p>The dependencies are listed as Debian/Ubuntu package names.</p>
+<div class="section" id="software-requirements">
+<h2>Software requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="minimum-dependencies">
+<h3>Minimum dependencies<a class="headerlink" href="#minimum-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>The absolute minimum requirements for getting <em>comics</em> up and running is:</p>
 <ul class="simple">
-<li>python (&gt;=2.5)</li>
-<li>python-django (&gt;=1.0)</li>
-<li>python-feedparser</li>
-<li>python-lxml</li>
+<li><a class="reference external" href="http://www.python.org/">Python</a> &gt;= 2.5</li>
+<li><a class="reference external" href="http://www.djangoproject.com/">Django</a> &gt;= 1.0</li>
+<li><a class="reference external" href="http://www.feedparser.org/">feedparser</a></li>
+<li><a class="reference external" href="http://codespeak.net/lxml/">lxml</a></li>
 </ul>
-<p>Optional dependencies if you want to use a real database and/or memcache:</p>
+<p>To install these on Debian-based Linux distributions, like Ubuntu, simply run:</p>
+<div class="highlight-python"><pre>sudo aptitude install python-django python-feedparser python-lxml</pre>
+</div>
+<p>If you are running Mac OS X with <a class="reference external" href="http://www.macports.org/">MacPorts</a>
+installed, you can install the dependencies by running:</p>
+<div class="highlight-python"><pre>sudo ports install python26 py26-django py26-feedparser py26-lxml</pre>
+</div>
+</div>
+<div class="section" id="optional-dependencies-for-real-deployments">
+<h3>Optional dependencies for real deployments<a class="headerlink" href="#optional-dependencies-for-real-deployments" title="Permalink to this headline">¶</a></h3>
+<p>Optional dependencies (listed by Debian package names) if you want to use a
+real database and/or memcache:</p>
 <ul class="simple">
 <li>python-psycopg2</li>
-<li>postgresql-X.Y (developed with 8.3)</li>
+<li>postgresql-X.Y (postgresql-8.3 has been used for development)</li>
 <li>cmemcache (from source, or alternatively python-memcache)</li>
 </ul>
+</div>
+<div class="section" id="optional-dependencies-for-development">
+<h3>Optional dependencies for development<a class="headerlink" href="#optional-dependencies-for-development" title="Permalink to this headline">¶</a></h3>
 <p>Additional dependencies which are handy for development:</p>
 <ul class="simple">
 <li>python-pmock (for mocking in unit tests)</li>
 <li>python-coverage (for checking test coverage)</li>
-<li>debug_toolbar (for debugging, from
-<a class="reference external" href="http://code.google.com/p/django-debug-toolbar/">http://code.google.com/p/django-debug-toolbar/</a>)</li>
+<li><a class="reference external" href="http://github.com/robhudson/django-debug-toolbar">django-debug-toolbar</a>
+(for debugging)</li>
 </ul>
 </div>
-<div class="section" id="id1">
-<h2>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>To get comics up and running from a clean checkout is as easy as:</p>
-<div class="highlight-python"><pre>git clone git://github.com/jodal/comics.git
-cd comics/comics/
-python manage.py syncdb
-python manage.py loadmeta
-python manage.py getcomics
-python manage.py runserver</pre>
 </div>
-<p>Then point your browser to <a class="reference external" href="http://localhost:8000/">http://localhost:8000/</a> to start reading comics.</p>
+<div class="section" id="get-comics">
+<h2>Get <em>comics</em><a class="headerlink" href="#get-comics" title="Permalink to this headline">¶</a></h2>
+<p>Get hold of a fresh version of <em>comics</em> by cloning the Git repository:</p>
+<div class="highlight-python"><pre>git clone git://github.com/jodal/comics</pre>
+</div>
+</div>
+<div class="section" id="run-comics">
+<h2>Run <em>comics</em><a class="headerlink" href="#run-comics" title="Permalink to this headline">¶</a></h2>
+<p>To get <em>comics</em> to a state useful for testing of new crawlers and personal
+usage, the following steps are all that is needed.</p>
+<p>A file-based SQLite database will be used by default <a class="footnote-reference" href="#sqlite" id="id1">[1]</a>. To create the
+database and database schema, open a terminal, go to the <tt class="docutils literal"><span class="pre">comics/comics/</span></tt>
+directory, and run:</p>
+<div class="highlight-python"><pre>python manage.py syncdb</pre>
+</div>
+<p>Then we need to seed the database with information on what comics exist:</p>
+<div class="highlight-python"><pre>python manage.py loadmeta</pre>
+</div>
+<p>Optionally, you can add <tt class="docutils literal"><span class="pre">-c</span> <span class="pre">xkcd</span></tt> to only load the <em>XKCD</em> comic from
+<tt class="docutils literal"><span class="pre">comics/comics/comics/xkcd.py</span></tt>.</p>
+<p>Next, we need to get hold of some comic strips, so we will crawl the web for
+them:</p>
+<div class="highlight-python"><pre>python manage.py getcomics</pre>
+</div>
+<p>Finally, to be able to browse the comic strips we have aggregated, start the
+Django development web server by running:</p>
+<div class="highlight-python"><pre>python manage.py runserver</pre>
+</div>
+<p>If you now point your web browser at <a class="reference external" href="http://localhost:8000/">http://localhost:8000/</a> you will be able to
+browse all available comics. If you provided a username and password at the
+<tt class="docutils literal"><span class="pre">syncdb</span></tt> step, you can log in at <a class="reference external" href="http://localhost:8000/admin/">http://localhost:8000/admin/</a> to do simple
+administration tasks, like removing comics or strips.</p>
+<p>All of these commands answers to the <tt class="docutils literal"><span class="pre">--help</span></tt> argument. I.e. <tt class="docutils literal"><span class="pre">getcomics</span></tt>
+can crawl specific comics, and arbitrary ranges of dates instead of just
+getting the latest comic strips.</p>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="sqlite" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Unless you have created a file <tt class="docutils literal"><span class="pre">comics/comics/settings/local.py</span></tt>
+where you have configured another database.</td></tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -93,18 +142,24 @@ python manage.py runserver</pre>
             <h3><a href="index.html">Table Of Contents</a></h3>
             <ul>
 <li><a class="reference external" href="">Installation</a><ul>
-<li><a class="reference external" href="#dependencies">Dependencies</a></li>
-<li><a class="reference external" href="#id1">Installation</a></li>
+<li><a class="reference external" href="#software-requirements">Software requirements</a><ul>
+<li><a class="reference external" href="#minimum-dependencies">Minimum dependencies</a></li>
+<li><a class="reference external" href="#optional-dependencies-for-real-deployments">Optional dependencies for real deployments</a></li>
+<li><a class="reference external" href="#optional-dependencies-for-development">Optional dependencies for development</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#get-comics">Get <em>comics</em></a></li>
+<li><a class="reference external" href="#run-comics">Run <em>comics</em></a></li>
 </ul>
 </li>
 </ul>
 
             <h4>Previous topic</h4>
-            <p class="topless"><a href="index.html"
-                                  title="previous chapter">comics</a></p>
+            <p class="topless"><a href="changes.html"
+                                  title="previous chapter">Changes</a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="usage.html"
-                                  title="next chapter">Usage</a></p>
+            <p class="topless"><a href="crawlers.html"
+                                  title="next chapter">Creating new crawlers</a></p>
           <div id="searchbox" style="display: none">
             <h3>Quick search</h3>
               <form class="search" action="search.html" method="get">
@@ -129,10 +184,10 @@ python manage.py runserver</pre>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="usage.html" title="Usage"
+          <a href="crawlers.html" title="Creating new crawlers"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="comics"
+          <a href="changes.html" title="Changes"
              >previous</a> |</li>
         <li><a href="index.html">comics v1.0a0 documentation</a> &raquo;</li> 
       </ul>
