@@ -151,18 +151,194 @@ image when downloading.</p>
 </div>
 <div class="section" id="the-crawler-crawl-method">
 <h2>The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method<a class="headerlink" href="#the-crawler-crawl-method" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO</strong></p>
-<div class="section" id="the-web-and-feed-parsers">
-<h3>The web and feed parsers<a class="headerlink" href="#the-web-and-feed-parsers" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
+<p>The <tt class="docutils literal"><span class="pre">crawl()</span></tt> is where the real work is going on. To start with an example,
+let&#8217;s look at <em>XKCD</em>&#8216;s <tt class="docutils literal"><span class="pre">crawl()</span></tt> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
+    <span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://www.xkcd.com/rss.xml&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">title</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">alt</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="extracting-data-from-html-using-css-selectors">
-<h3>Extracting data from HTML using CSS selectors<a class="headerlink" href="#extracting-data-from-html-using-css-selectors" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="arguments-and-return-values">
+<h3>Arguments and return values<a class="headerlink" href="#arguments-and-return-values" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">crawl()</span></tt> method takes a single argument, <tt class="docutils literal"><span class="pre">pub_date</span></tt>, which is a
+<tt class="docutils literal"><span class="pre">datetime.date</span></tt> object for the date the crawler is currently crawling. The
+goal of the method is to return a <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt> object containing at least
+the URL of the strip image for <tt class="docutils literal"><span class="pre">pub_date</span></tt> and optionally a <tt class="docutils literal"><span class="pre">title</span></tt> and
+<tt class="docutils literal"><span class="pre">text</span></tt> accompanying the image. <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>&#8216;s signature is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This means that you must always supply an URL, and that you can supply a
+<tt class="docutils literal"><span class="pre">text</span></tt> without a <tt class="docutils literal"><span class="pre">title</span></tt>. The following are all valid ways to create a
+<tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For some crawlers, this is all you need. If the strip image URL is predictable
+and based upon the <tt class="docutils literal"><span class="pre">pub_date</span></tt> in some way, just create the URL with the help
+of <a class="reference external" href="http://docs.python.org/library/datetime.html#strftime-behavior">Python&#8217;s strftime documentation</a>, and return
+it wrapped in a <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://www.example.com/comics/</span><span class="si">%s</span><span class="s">.png&#39;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">pub_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">),)</span>
+    <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Though, for most crawlers, some interaction with RSS or Atom feeds or web pages
+are needed. For this a web parser and a feed parser are provided.</p>
+</div>
+</div>
+<div class="section" id="the-web-parser">
+<h2>The web parser<a class="headerlink" href="#the-web-parser" title="Permalink to this headline">¶</a></h2>
+<p>The web parser, internally known as <tt class="docutils literal"><span class="pre">LxmlParser</span></tt>, uses CSS selectors to
+extract content from HTML:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
+    <span class="n">page_url</span> <span class="o">=</span> <span class="s">&#39;http://ars.userfriendly.org/cartoons/?id=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">pub_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y%m</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">),)</span>
+    <span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">(</span><span class="n">page_url</span><span class="p">)</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img[alt^=&quot;Strip for&quot;]&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is a common pattern for crawlers. Another common patterns is to use a feed
+to find the web page URL for the given date, then parse that web page to find
+the strip image URL.</p>
+<p>For a primer on CSS selectors, see <a class="reference internal" href="#css-selectors"><em>Matching HTML elements using CSS selectors</em></a>.</p>
+<div class="section" id="available-methods">
+<h3>Available methods<a class="headerlink" href="#available-methods" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">text(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dd>Returns the text contained by the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">src(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dd><p class="first">Returns the <tt class="docutils literal"><span class="pre">src</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</p>
+<p class="last">The web parser automatically expands relative URLs in the source, like
+<tt class="docutils literal"><span class="pre">/comics/2008-04-13.png</span></tt> to a full URL like
+<tt class="docutils literal"><span class="pre">http://www.example.com/2008-04-13.png</span></tt>, so you do not need to think
+about that.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">alt(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dd>Returns the <tt class="docutils literal"><span class="pre">alt</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">title(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dd>Returns the <tt class="docutils literal"><span class="pre">title</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">remove(selector)</span></tt></dt>
+<dd>Remove the elements matching <tt class="docutils literal"><span class="pre">selector</span></tt> from the parsed document.</dd>
+<dt><tt class="docutils literal"><span class="pre">select(selector)</span></tt></dt>
+<dd>Return the <tt class="docutils literal"><span class="pre">lxml</span></tt> elements for the elements matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="the-feed-parser">
+<h2>The feed parser<a class="headerlink" href="#the-feed-parser" title="Permalink to this headline">¶</a></h2>
+<p>The feed parser is initialized with a feed URL, just like the web parser is
+initialized with a web page URL:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://www.xkcd.com/rss.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="feed-methods">
+<h3>Feed methods<a class="headerlink" href="#feed-methods" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">feed</span></tt> object provides two methods which both returns feed elements:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">for_date(date)</span></tt></dt>
+<dd>Returns all feed elements published at <tt class="docutils literal"><span class="pre">date</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">all()</span></tt></dt>
+<dd>Returns all feed elements.</dd>
+</dl>
+<p>Typically, a crawler uses <tt class="docutils literal"><span class="pre">for_date(date)</span></tt> and loops over all entries it
+returns to find the strip image URL:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
+    <span class="c"># parsing comes here</span>
+    <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="entry-fields-with-lxmlparser">
+<h3>Entry fields with <tt class="docutils literal"><span class="pre">LxmlParser</span></tt><a class="headerlink" href="#entry-fields-with-lxmlparser" title="Permalink to this headline">¶</a></h3>
+<p>The <em>comics</em> feed parser is really a combination of <em>`feedparser
+&lt;http://www.feedparser.org/&gt;`_</em> and <tt class="docutils literal"><span class="pre">LxmlParser</span></tt>. It can do anything
+<em>feedparser</em> can do, and in addition you can use the <tt class="docutils literal"><span class="pre">LxmlParser</span></tt> methods on
+feed fields which contains HTML:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">summary</span></tt></dt>
+<dd>This is the most frequently used entry field which supports HTML parsing
+with the <tt class="docutils literal"><span class="pre">LxmlParser</span></tt> methods.</dd>
+<dt><tt class="docutils literal"><span class="pre">content0</span></tt></dt>
+<dd>This is the same as <em>feedparser</em>&#8216;s <tt class="docutils literal"><span class="pre">content[0].value</span></tt> field, but with
+<tt class="docutils literal"><span class="pre">LxmlParser</span></tt> methods available. For some crawlers, this is where the
+interesting stuff is found.</dd>
+</dl>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">alt</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you need to parse HTML in any other fields than the above two, you can apply
+the <tt class="docutils literal"><span class="pre">html(string)</span></tt> method on the field, like it is applied on a feed entry&#8217;s
+title field here:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s">&#39;h1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="matching-html-elements-using-css-selectors">
+<span id="css-selectors"></span><h2>Matching HTML elements using CSS selectors<a class="headerlink" href="#matching-html-elements-using-css-selectors" title="Permalink to this headline">¶</a></h2>
+<p>Both web page and feed parsing uses CSS selectors to extract the interesting
+strings from HTML. CSS selectors are those normally simple strings you use in
+CSS style sheets to select what elements of your web page the CSS declarations
+should be applied to.</p>
+<p>In the following example <tt class="docutils literal"><span class="pre">h1</span> <span class="pre">a</span></tt> is the selector. It matches all <tt class="docutils literal"><span class="pre">a</span></tt>
+elements contained in <tt class="docutils literal"><span class="pre">h1</span></tt> elements. The rule to be applied to the matching
+elements is <tt class="docutils literal"><span class="pre">color:</span> <span class="pre">red;</span></tt>.</p>
+<div class="highlight-css"><div class="highlight"><pre><span class="nt">h1</span> <span class="nt">a</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Similarly <tt class="docutils literal"><span class="pre">class=&quot;foo&quot;</span></tt> and <tt class="docutils literal"><span class="pre">id=&quot;bar&quot;</span></tt> in HTML may be used in CSS
+selectors. The following CSS example would color all <tt class="docutils literal"><span class="pre">h1</span></tt> headers with the
+class <tt class="docutils literal"><span class="pre">foo</span></tt> red, and all elements with the ID <tt class="docutils literal"><span class="pre">bar</span></tt> which is contained in
+<tt class="docutils literal"><span class="pre">h1</span></tt> elements would be colored blue.</p>
+<div class="highlight-css"><div class="highlight"><pre><span class="nt">h1</span><span class="nc">.foo</span> <span class="p">{</span> <span class="k">color</span> <span class="nb">red</span><span class="p">;</span> <span class="p">}</span>
+<span class="nt">h1</span> <span class="nf">#bar</span> <span class="p">{</span> <span class="k">color</span><span class="o">:</span> <span class="nb">blue</span><span class="p">;</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>In CSS3, the power of CSS selectors have been greatly increased by the addition
+of matching by the content of elements&#8217; arguments. To match all <tt class="docutils literal"><span class="pre">img</span></tt>
+elements with a <tt class="docutils literal"><span class="pre">src</span></tt> attribute <em>starting with</em> <tt class="docutils literal"><span class="pre">http://www.example.com/</span></tt>
+simply write:</p>
+<div class="highlight-python"><pre>img[src^="http://www.example.com/"]</pre>
+</div>
+<p>Or, to match all <tt class="docutils literal"><span class="pre">img</span></tt> elements whose <tt class="docutils literal"><span class="pre">src</span></tt> attribute <em>ends in</em> <tt class="docutils literal"><span class="pre">.jpg</span></tt>:</p>
+<div class="highlight-python"><pre>img[src$=".jpg"]</pre>
+</div>
+<p>Or, <tt class="docutils literal"><span class="pre">img</span></tt> elements whose <tt class="docutils literal"><span class="pre">src</span></tt> attribute <em>contains</em> <tt class="docutils literal"><span class="pre">/comics/</span></tt>:</p>
+<div class="highlight-python"><pre>img[src*="/comics/"]</pre>
+</div>
+<p>Or, <tt class="docutils literal"><span class="pre">img</span></tt> elements whose <tt class="docutils literal"><span class="pre">alt</span></tt> attribute <em>is</em> <tt class="docutils literal"><span class="pre">Today's</span> <span class="pre">comic</span></tt>:</p>
+<div class="highlight-python"><pre>img[alt="Today's comic"]</pre>
+</div>
+<p>For further details on CSS selectors in general, please refer to
+<a class="reference external" href="http://css.maxdesign.com.au/selectutorial/">http://css.maxdesign.com.au/selectutorial/</a>.</p>
+</div>
+<div class="section" id="testing-your-new-crawler">
+<h2>Testing your new crawler<a class="headerlink" href="#testing-your-new-crawler" title="Permalink to this headline">¶</a></h2>
 <p><strong>TODO</strong></p>
-<p><strong>References:</strong></p>
-<ul class="simple">
-<li><a class="reference external" href="http://css.maxdesign.com.au/selectutorial/">http://css.maxdesign.com.au/selectutorial/</a></li>
-</ul>
+<div class="section" id="loading-meta-for-your-new-comic">
+<h3>Loading <tt class="docutils literal"><span class="pre">Meta</span></tt> for your new comic<a class="headerlink" href="#loading-meta-for-your-new-comic" title="Permalink to this headline">¶</a></h3>
+<p><strong>TODO</strong></p>
+<div class="highlight-python"><pre>python manage.py loadmeta -c newcomic</pre>
+</div>
+</div>
+<div class="section" id="running-the-crawler">
+<h3>Running the crawler<a class="headerlink" href="#running-the-crawler" title="Permalink to this headline">¶</a></h3>
+<p><strong>TODO</strong></p>
+<div class="highlight-python"><pre>python manage.py getcomics -c newcomic</pre>
+</div>
 </div>
 </div>
 </div>
@@ -184,8 +360,22 @@ image when downloading.</p>
 </ul>
 </li>
 <li><a class="reference external" href="#the-crawler-crawl-method">The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method</a><ul>
-<li><a class="reference external" href="#the-web-and-feed-parsers">The web and feed parsers</a></li>
-<li><a class="reference external" href="#extracting-data-from-html-using-css-selectors">Extracting data from HTML using CSS selectors</a></li>
+<li><a class="reference external" href="#arguments-and-return-values">Arguments and return values</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#the-web-parser">The web parser</a><ul>
+<li><a class="reference external" href="#available-methods">Available methods</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#the-feed-parser">The feed parser</a><ul>
+<li><a class="reference external" href="#feed-methods">Feed methods</a></li>
+<li><a class="reference external" href="#entry-fields-with-lxmlparser">Entry fields with <tt class="docutils literal"><span class="pre">LxmlParser</span></tt></a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#matching-html-elements-using-css-selectors">Matching HTML elements using CSS selectors</a></li>
+<li><a class="reference external" href="#testing-your-new-crawler">Testing your new crawler</a><ul>
+<li><a class="reference external" href="#loading-meta-for-your-new-comic">Loading <tt class="docutils literal"><span class="pre">Meta</span></tt> for your new comic</a></li>
+<li><a class="reference external" href="#running-the-crawler">Running the crawler</a></li>
 </ul>
 </li>
 </ul>
