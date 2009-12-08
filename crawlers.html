@@ -262,8 +262,7 @@ returns to find the strip image URL:</p>
 </div>
 <div class="section" id="entry-fields-with-lxmlparser">
 <h3>Entry fields with <tt class="docutils literal"><span class="pre">LxmlParser</span></tt><a class="headerlink" href="#entry-fields-with-lxmlparser" title="Permalink to this headline">¶</a></h3>
-<p>The <em>comics</em> feed parser is really a combination of <em>`feedparser
-&lt;http://www.feedparser.org/&gt;`_</em> and <tt class="docutils literal"><span class="pre">LxmlParser</span></tt>. It can do anything
+<p>The <em>comics</em> feed parser is really a combination of <a class="reference external" href="http://www.feedparser.org/">feedparser</a> and <tt class="docutils literal"><span class="pre">LxmlParser</span></tt>. It can do anything
 <em>feedparser</em> can do, and in addition you can use the <tt class="docutils literal"><span class="pre">LxmlParser</span></tt> methods on
 feed fields which contains HTML:</p>
 <dl class="docutils">
@@ -327,19 +326,51 @@ simply write:</p>
 </div>
 <div class="section" id="testing-your-new-crawler">
 <h2>Testing your new crawler<a class="headerlink" href="#testing-your-new-crawler" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO</strong></p>
+<p>When the first version of you crawler is complete, it&#8217;s time to test it.</p>
+<p>The file name is important, as it is used as the comic&#8217;s slug. This means that
+it must be unique within the <em>comics</em> installation, and that it is used in the
+URLs <em>comics</em> will serve the comic strips at. For this example, we call the
+crawler file <tt class="docutils literal"><span class="pre">foo.py</span></tt>. The file must be placed in the
+<tt class="docutils literal"><span class="pre">comics/comics/comics/</span></tt> directory, and will be available in Python as
+<tt class="docutils literal"><span class="pre">comics.comics.foo</span></tt>.</p>
 <div class="section" id="loading-meta-for-your-new-comic">
 <h3>Loading <tt class="docutils literal"><span class="pre">Meta</span></tt> for your new comic<a class="headerlink" href="#loading-meta-for-your-new-comic" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
-<div class="highlight-python"><pre>python manage.py loadmeta -c newcomic</pre>
+<p>For <em>comics</em> to know about your new crawler, you need to load the comic meta
+data into <em>comics</em>&#8216;s database. To do so, we run the <tt class="docutils literal"><span class="pre">loadmeta</span></tt> command:</p>
+<div class="highlight-python"><pre>python manage.py loadmeta -c foo</pre>
 </div>
+<p>If you do any changes to the <tt class="docutils literal"><span class="pre">Meta</span></tt> class of any crawler, you must rerun
+<tt class="docutils literal"><span class="pre">loadmeta</span></tt> to update the database representation of the comic.</p>
 </div>
 <div class="section" id="running-the-crawler">
 <h3>Running the crawler<a class="headerlink" href="#running-the-crawler" title="Permalink to this headline">¶</a></h3>
-<p><strong>TODO</strong></p>
-<div class="highlight-python"><pre>python manage.py getcomics -c newcomic</pre>
+<p>When <tt class="docutils literal"><span class="pre">loadmeta</span></tt> has created a <tt class="docutils literal"><span class="pre">Comic</span></tt> instance for the new crawler, you may
+use your new crawler to fetch the comic&#8217;s strip for the current date by
+running:</p>
+<div class="highlight-python"><pre>python manage.py getcomics -c foo</pre>
+</div>
+<p>If you want to get comics strips for more than the current day, you may specify a date range to crawl, like:</p>
+<div class="highlight-python"><pre>python manage.py getcomics -c foo -f 2009-01-01 -t 2009-03-31</pre>
+</div>
+<p>The date range will automatically be adjusted to the crawlers <em>history
+capability</em>. You may also get comics for a date range without a specific end.
+In which case, the current date will be used instead:</p>
+<div class="highlight-python"><pre>python manage.py getcomics -c foo -f 2009-01-01</pre>
+</div>
+<p>If your new crawler is not working properly, you may add <tt class="docutils literal"><span class="pre">-v2</span></tt> to the command
+to turn on full debug output:</p>
+<div class="highlight-python"><pre>python manage.py getcomics -c foo -v2</pre>
+</div>
+<p>For a full overview of <tt class="docutils literal"><span class="pre">getcomics</span></tt> options, run:</p>
+<div class="highlight-python"><pre>python manage.py getcomics --help</pre>
 </div>
 </div>
+</div>
+<div class="section" id="submitting-your-new-crawler-for-inclusion-in-comics">
+<h2>Submitting your new crawler for inclusion in <em>comics</em><a class="headerlink" href="#submitting-your-new-crawler-for-inclusion-in-comics" title="Permalink to this headline">¶</a></h2>
+<p>When your crawler is working properly, you may submit it for inclusion in
+<em>comics</em>. You may either send the crawler to <a class="reference external" href="mailto:comics&#37;&#52;&#48;jodal&#46;no">comics<span>&#64;</span>jodal<span>&#46;</span>no</a>, or, even better, fork <em>comics</em> at <a class="reference external" href="http://github.com/jodal/comics">GitHub</a>, commit your new crawler to your own fork,
+and send me a <em>pull request</em> through GitHub.</p>
 </div>
 </div>
 
@@ -378,6 +409,7 @@ simply write:</p>
 <li><a class="reference external" href="#running-the-crawler">Running the crawler</a></li>
 </ul>
 </li>
+<li><a class="reference external" href="#submitting-your-new-crawler-for-inclusion-in-comics">Submitting your new crawler for inclusion in <em>comics</em></a></li>
 </ul>
 </li>
 </ul>

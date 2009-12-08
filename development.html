@@ -47,15 +47,14 @@
             
   <div class="section" id="development">
 <h1>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="running-tests">
-<h2>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
-<p><em>comics</em> got some tests, but far from full test coverage.</p>
-<p>To run unit tests:</p>
-<div class="highlight-python"><pre>python manage.py test --settings=comics.settings.testing</pre>
-</div>
-<p>To run unit tests with statement coverage:</p>
-<div class="highlight-python"><pre>python manage.py test --settings=comics.settings.coverage</pre>
-</div>
+<p><em>comics</em> development is coordinated through <a class="reference external" href="http://github.com/">GitHub</a>.</p>
+<div class="section" id="how-to-contribute">
+<h2>How to contribute<a class="headerlink" href="#how-to-contribute" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to contribute to <em>comics</em> is to register as a user at GitHub,
+fork <a class="reference external" href="http://github.com/jodal/comics">the comics project</a>, and start hacking.
+To get your changes back into <em>comics</em>&#8216; mainline, send a pull request to <a class="reference external" href="http://github.com/jodal">jodal
+at GitHub</a>, or send a mail to <a class="reference external" href="mailto:comics&#37;&#52;&#48;jodal&#46;no">comics<span>&#64;</span>jodal<span>&#46;</span>no</a>. Patches accompanied by tests and documentation
+gives +5 karma and kudos.</p>
 </div>
 <div class="section" id="todo-list">
 <h2>Todo list<a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h2>
@@ -88,6 +87,8 @@
 </div>
 <div class="section" id="change-specifications">
 <h2>Change specifications<a class="headerlink" href="#change-specifications" title="Permalink to this headline">¶</a></h2>
+<p>When planning or doing larger changes to <em>comics</em>, notes may be added to the
+documentation as a <em>change specification</em>.</p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="specs/crawler-meta.html">Spec: Crawler meta data in Python code</a><ul>
 <li class="toctree-l2"><a class="reference external" href="specs/crawler-meta.html#goals">Goals</a></li>
@@ -101,6 +102,32 @@
 </li>
 </ul>
 </div>
+<div class="section" id="data-model">
+<h2>Data model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
+<p><em>comics</em>&#8216; data model is very simple. The <tt class="docutils literal"><span class="pre">core</span></tt> app consists of three models;
+<tt class="docutils literal"><span class="pre">Comic</span></tt>, <tt class="docutils literal"><span class="pre">Release</span></tt>, and <tt class="docutils literal"><span class="pre">Strip</span></tt>. The <tt class="docutils literal"><span class="pre">sets</span></tt> app adds an additional
+model named <tt class="docutils literal"><span class="pre">Set</span></tt>.</p>
+<img alt="images/data_model.png" src="images/data_model.png" />
+<p>The above data model diagram was generated using the Django app
+<tt class="docutils literal"><span class="pre">django_extensions</span></tt> and the following command:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">PYTHONPATH</span><span class="o">=</span>.. python manage.py graph_models <span class="se">\</span>
+    --settings<span class="o">=</span>comics.settings.dev <span class="se">\</span>
+    --output<span class="o">=</span>../docs/static/data_model.png --group-models <span class="se">\</span>
+    core sets
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-tests">
+<h2>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h2>
+<p><em>comics</em> got some tests, but far from full test coverage. If you write new or
+improved tests for <em>comics</em>&#8216; functionality it will be greatly appreciated.</p>
+<p>To run unit tests:</p>
+<div class="highlight-python"><pre>python manage.py test --settings=comics.settings.testing</pre>
+</div>
+<p>To run unit tests with statement coverage:</p>
+<div class="highlight-python"><pre>python manage.py test --settings=comics.settings.coverage</pre>
+</div>
+</div>
 </div>
 
 
@@ -112,7 +139,7 @@
             <h3><a href="index.html">Table Of Contents</a></h3>
             <ul>
 <li><a class="reference external" href="">Development</a><ul>
-<li><a class="reference external" href="#running-tests">Running tests</a></li>
+<li><a class="reference external" href="#how-to-contribute">How to contribute</a></li>
 <li><a class="reference external" href="#todo-list">Todo list</a><ul>
 <li><a class="reference external" href="#improvements">Improvements</a></li>
 <li><a class="reference external" href="#new-features">New features</a></li>
@@ -121,6 +148,8 @@
 <li><a class="reference external" href="#change-specifications">Change specifications</a><ul>
 </ul>
 </li>
+<li><a class="reference external" href="#data-model">Data model</a></li>
+<li><a class="reference external" href="#running-tests">Running tests</a></li>
 </ul>
 </li>
 </ul>

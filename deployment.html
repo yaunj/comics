@@ -47,17 +47,126 @@
             
   <div class="section" id="deployment">
 <h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="apache-vhost-example">
-<h2>Apache vhost example<a class="headerlink" href="#apache-vhost-example" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO</strong></p>
+<p>The following example documents <em>one way</em> to deploy <em>comics</em>. As <em>comics</em> is a
+standard Django project with an additional batch job, it may be deployed in
+just about any way a Django project may be deployed. Please refer to <a class="reference external" href="http://docs.djangoproject.com/en/dev/howto/deployment/">Django&#8217;s
+deployment documentation</a> for further details.</p>
+<p>In the following examples we assume that we are deploying <em>comics</em> at
+<a class="reference external" href="http://comics.example.com/">http://comics.example.com/</a>, using Apache, mod_wsgi, and PostgreSQL. The Django
+application and batch job is both running as the user <tt class="docutils literal"><span class="pre">comics-user</span></tt>. The
+static media files, like comic strips, are served from
+<a class="reference external" href="http://comics.example.com/media/">http://comics.example.com/media/</a>, but may also be served from a different host.</p>
+<div class="section" id="example-apache-vhost">
+<h2>Example Apache vhost<a class="headerlink" href="#example-apache-vhost" title="Permalink to this headline">¶</a></h2>
+<p>This example requires your Apache to have the <tt class="docutils literal"><span class="pre">mod_wsgi</span></tt> module. For
+efficient static media serving and caching, you should also enable
+<tt class="docutils literal"><span class="pre">mod_deflate</span></tt> and <tt class="docutils literal"><span class="pre">mod_expires</span></tt>, but they are optional and the following
+example will work without them.</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="s">\*:80</span><span class="nt">&gt;</span>
+    <span class="nb">ServerName</span> comics.example.com
+    <span class="nb">ErrorLog</span> <span class="sx">/var/log/apache2/comics.example.com-error.log</span>
+    <span class="nb">CustomLog</span> <span class="sx">/var/log/apache2/comics.example.com-access.log</span> combined
+
+    <span class="c"># Not used, but Apache will complain if the dir does not exist</span>
+    <span class="nb">DocumentRoot</span> <span class="sx">/var/www/comics.example.com</span>
+
+    <span class="c"># Static media hosting</span>
+    <span class="nt">&lt;Location</span> <span class="s">/media/</span><span class="nt">&gt;</span>
+        <span class="c"># Turn off directory indexes</span>
+        <span class="nb">Options</span> -Indexes
+
+        <span class="c"># Turn on ETag generation</span>
+        <span class="nb">FileETag</span> MTime Size
+
+        <span class="c"># Turn on compression</span>
+        <span class="nt">&lt;IfModule</span> <span class="s">deflate_module</span><span class="nt">&gt;</span>
+            <span class="nb">AddOutputFilterByType</span> DEFLATE text/html text/plain text/xml text/css application/javascript
+        <span class="nt">&lt;/IfModule&gt;</span>
+
+        <span class="c"># Set cache expire to one month from now</span>
+        <span class="nt">&lt;IfModule</span> <span class="s">expires_module</span><span class="nt">&gt;</span>
+            <span class="nb">ExpiresActive</span> <span class="k">On</span>
+            <span class="nb">ExpiresDefault</span> A2592000
+        <span class="nt">&lt;/IfModule&gt;</span>
+    <span class="nt">&lt;/Location&gt;</span>
+
+    <span class="c"># mod_wsgi setup</span>
+    <span class="nb">WSGIDaemonProcess</span> comics <span class="k">user</span>=comics-user <span class="k">group</span>=comics-user threads=50 maximum-requests=10000
+    <span class="nb">WSGIProcessGroup</span> comics
+    <span class="nb">WSGIScriptAlias</span> / <span class="sx">/path/to/comics/wsgi/prod.wsgi</span>
+    <span class="nt">&lt;Directory</span> <span class="s">/path/to/comics/comics/wsgi</span><span class="nt">&gt;</span>
+        <span class="nb">Order</span> deny,allow
+        <span class="nb">Allow</span> from <span class="k">all</span>
+    <span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
 </div>
-<div class="section" id="wsgi-setup-example">
-<h2>WSGI setup example<a class="headerlink" href="#wsgi-setup-example" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO</strong></p>
+<p>For details, please refer to the documentation of the <a class="reference external" href="http://httpd.apache.org/docs/">Apache</a> and <a class="reference external" href="http://code.google.com/p/modwsgi/">mod_wsgi</a> projects.</p>
 </div>
-<div class="section" id="comics-settings-example">
-<h2><em>comics</em> settings example<a class="headerlink" href="#comics-settings-example" title="Permalink to this headline">¶</a></h2>
-<p><strong>TODO</strong></p>
+<div class="section" id="example-wsgi-file">
+<h2>Example WSGI file<a class="headerlink" href="#example-wsgi-file" title="Permalink to this headline">¶</a></h2>
+<p>This is the <tt class="docutils literal"><span class="pre">prod.wsgi</span></tt> file refered to in the Apache vhost above. The
+<tt class="docutils literal"><span class="pre">sys.path</span></tt> line assumes that the file is located in a directory inside the
+<em>comics</em> project, as the <tt class="docutils literal"><span class="pre">prod.wsgi</span></tt> shipped with <em>comics</em> is. If your WSGI
+file is located elsewhere, the <tt class="docutils literal"><span class="pre">sys.path</span></tt> line must be changed to point to
+whereever your <em>comics</em> project folder is located.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s">&#39;/../&#39;</span><span class="p">))</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;DJANGO_SETTINGS_MODULE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;comics.settings&#39;</span>
+
+<span class="kn">import</span> <span class="nn">django.core.handlers.wsgi</span>
+
+<span class="n">application</span> <span class="o">=</span> <span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">handlers</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">WSGIHandler</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-settings-local-py">
+<h2>Example <tt class="docutils literal"><span class="pre">settings/local.py</span></tt><a class="headerlink" href="#example-settings-local-py" title="Permalink to this headline">¶</a></h2>
+<p>In general, you should not change the settings files shipped with <em>comics</em>, but
+instead override the settings in your own <tt class="docutils literal"><span class="pre">comics/comics/settings/local.py</span></tt>.
+Even if you do not want to override any default settings, you must add a
+<tt class="docutils literal"><span class="pre">local.py</span></tt> which at least sets <tt class="docutils literal"><span class="pre">SECRET_KEY</span></tt> and most probably your database
+settings. A full <tt class="docutils literal"><span class="pre">local.py</span></tt> may look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Local settings -- do NOT commit to a VCS</span>
+
+<span class="c"># Make this unique, and don&#39;t share it with anybody.</span>
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s">&#39;djdjdk5k4$(DA=!SDAD!)12312415151368edkfjgngnw3m!$!Dfafa&#39;</span>
+
+<span class="c"># You can override any settings here, like database settings.</span>
+
+<span class="n">ADMINS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s">&#39;Comics Webmaster&#39;</span><span class="p">,</span> <span class="s">&#39;comics@example.com&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">MANAGERS</span> <span class="o">=</span> <span class="n">ADMINS</span>
+
+<span class="c"># Database settings</span>
+<span class="n">DATABASE_ENGINE</span> <span class="o">=</span> <span class="s">&#39;postgresql_psycopg2&#39;</span>
+<span class="n">DATABASE_NAME</span> <span class="o">=</span> <span class="s">&#39;comics&#39;</span>
+<span class="n">DATABASE_USER</span> <span class="o">=</span> <span class="s">&#39;comics&#39;</span>
+<span class="n">DATABASE_PASSWORD</span> <span class="o">=</span> <span class="s">&#39;euthahM7evei&#39;</span>
+<span class="n">DATABASE_HOST</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="n">DATABASE_PORT</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+<span class="c"># Internal IP addresses</span>
+<span class="n">INTERNAL_IPS</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,)</span>
+
+<span class="c"># Media</span>
+<span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="s">&#39;/var/www/comics.example.com/media/&#39;</span>
+<span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s">&#39;http://comics.example.com/media/&#39;</span>
+<span class="n">COMICS_MEDIA_ROOT</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">c/&#39;</span> <span class="o">%</span> <span class="n">MEDIA_ROOT</span>
+<span class="n">COMICS_MEDIA_URL</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">c/&#39;</span> <span class="o">%</span> <span class="n">MEDIA_URL</span>
+
+<span class="c"># Caching</span>
+<span class="n">CACHE_BACKEND</span> <span class="o">=</span> <span class="s">&#39;memcached://127.0.0.1:11211/&#39;</span>
+<span class="n">CACHE_MIDDLEWARE_KEY_PREFIX</span> <span class="o">=</span> <span class="s">&#39;comics&#39;</span>
+</pre></div>
+</div>
+<p>Of course, you should change most, if not all, of these settings for your own
+installation. If your are not running a <em>memcached</em> server, remove the part on
+caching from your <tt class="docutils literal"><span class="pre">local.py</span></tt>.</p>
 </div>
 </div>
 
@@ -70,9 +179,9 @@
             <h3><a href="index.html">Table Of Contents</a></h3>
             <ul>
 <li><a class="reference external" href="">Deployment</a><ul>
-<li><a class="reference external" href="#apache-vhost-example">Apache vhost example</a></li>
-<li><a class="reference external" href="#wsgi-setup-example">WSGI setup example</a></li>
-<li><a class="reference external" href="#comics-settings-example"><em>comics</em> settings example</a></li>
+<li><a class="reference external" href="#example-apache-vhost">Example Apache vhost</a></li>
+<li><a class="reference external" href="#example-wsgi-file">Example WSGI file</a></li>
+<li><a class="reference external" href="#example-settings-local-py">Example <tt class="docutils literal"><span class="pre">settings/local.py</span></tt></a></li>
 </ul>
 </li>
 </ul>
