@@ -62,7 +62,7 @@ static media files, like comic strips, are served from
 efficient static media serving and caching, you should also enable
 <tt class="docutils literal"><span class="pre">mod_deflate</span></tt> and <tt class="docutils literal"><span class="pre">mod_expires</span></tt>, but they are optional and the following
 example will work without them.</p>
-<div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="s">\*:80</span><span class="nt">&gt;</span>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
     <span class="nb">ServerName</span> comics.example.com
     <span class="nb">ErrorLog</span> <span class="sx">/var/log/apache2/comics.example.com-error.log</span>
     <span class="nb">CustomLog</span> <span class="sx">/var/log/apache2/comics.example.com-access.log</span> combined
@@ -71,6 +71,7 @@ example will work without them.</p>
     <span class="nb">DocumentRoot</span> <span class="sx">/var/www/comics.example.com</span>
 
     <span class="c"># Static media hosting</span>
+    <span class="nb">Alias</span> <span class="sx">/media/</span> <span class="sx">/path/to/comics/media/</span>
     <span class="nt">&lt;Location</span> <span class="s">/media/</span><span class="nt">&gt;</span>
         <span class="c"># Turn off directory indexes</span>
         <span class="nb">Options</span> -Indexes
