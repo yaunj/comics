@@ -55,15 +55,18 @@
 <ul class="simple">
 <li><a class="reference external" href="http://www.python.org/">Python</a> &gt;= 2.5</li>
 <li><a class="reference external" href="http://www.djangoproject.com/">Django</a> &gt;= 1.0</li>
+<li><a class="reference external" href="http://south.aeracode.org/">South</a> &gt;= 0.5</li>
 <li><a class="reference external" href="http://www.feedparser.org/">feedparser</a></li>
 <li><a class="reference external" href="http://codespeak.net/lxml/">lxml</a> &gt;= 2.0</li>
 </ul>
 <p>To install these on Debian-based Linux distributions, like Ubuntu, simply run:</p>
-<div class="highlight-python"><pre>sudo aptitude install python-django python-feedparser python-lxml</pre>
+<div class="highlight-python"><pre>sudo aptitude install python-django python-django-south \
+    python-feedparser python-lxml</pre>
 </div>
 <p>If you are running Mac OS X with <a class="reference external" href="http://www.macports.org/">MacPorts</a>
 installed, you can install the dependencies by running:</p>
-<div class="highlight-python"><pre>sudo ports install python26 py26-django py26-feedparser py26-lxml</pre>
+<div class="highlight-python"><pre>sudo ports install python26 py26-django py26-south \
+    py26-feedparser py26-lxml</pre>
 </div>
 </div>
 <div class="section" id="optional-dependencies-for-real-deployments">
@@ -102,6 +105,10 @@ usage, the following steps are all that is needed.</p>
 database and database schema, open a terminal, go to the <tt class="docutils literal"><span class="pre">comics/comics/</span></tt>
 directory, and run:</p>
 <div class="highlight-python"><pre>python manage.py syncdb</pre>
+</div>
+<p>Parts of the database is managed by the South database migrations tool. To
+create that part of the database, run:</p>
+<div class="highlight-python"><pre>python manage.py migrate</pre>
 </div>
 <p>Then we need to seed the database with information on what comics exist:</p>
 <div class="highlight-python"><pre>python manage.py loadmeta</pre>

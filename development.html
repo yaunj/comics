@@ -55,6 +55,7 @@ fork <a class="reference external" href="http://github.com/jodal/comics">the com
 To get your changes back into <em>comics</em>&#8216; mainline, send a pull request to <a class="reference external" href="http://github.com/jodal">jodal
 at GitHub</a>, or send a mail to <a class="reference external" href="mailto:comics&#37;&#52;&#48;jodal&#46;no">comics<span>&#64;</span>jodal<span>&#46;</span>no</a>. Patches accompanied by tests and documentation
 gives +5 karma and kudos.</p>
+<p>All contributions must be granted under the same license as <em>comics</em> itself.</p>
 </div>
 <div class="section" id="todo-list">
 <h2>Todo list<a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h2>
@@ -108,7 +109,9 @@ documentation as a <em>change specification</em>.</p>
 <h2>Data model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
 <p><em>comics</em>&#8216; data model is very simple. The <tt class="docutils literal"><span class="pre">core</span></tt> app consists of three models;
 <tt class="docutils literal"><span class="pre">Comic</span></tt>, <tt class="docutils literal"><span class="pre">Release</span></tt>, and <tt class="docutils literal"><span class="pre">Strip</span></tt>. The <tt class="docutils literal"><span class="pre">sets</span></tt> app adds an additional
-model named <tt class="docutils literal"><span class="pre">Set</span></tt>.</p>
+model named <tt class="docutils literal"><span class="pre">Set</span></tt>. Changes to the data model are managed using <cite>South
+&lt;http://south.aeracode.org/&gt;_</cite> database migrations. If you need to change
+the models, please provide the needed migrations.</p>
 <img alt="images/data_model.png" src="images/data_model.png" />
 <p>The above data model diagram was generated using the Django app
 <a class="reference external" href="http://code.google.com/p/django-command-extensions/">django_extensions</a> and
