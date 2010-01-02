@@ -54,19 +54,25 @@
 <p>The absolute minimum requirements for getting <em>comics</em> up and running is:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://www.python.org/">Python</a> &gt;= 2.5</li>
+<li><a class="reference external" href="http://www.pythonware.com/products/pil/">PIL</a> &gt;= 1.1</li>
 <li><a class="reference external" href="http://www.djangoproject.com/">Django</a> &gt;= 1.0</li>
-<li><a class="reference external" href="http://south.aeracode.org/">South</a> &gt;= 0.5</li>
-<li><a class="reference external" href="http://www.feedparser.org/">feedparser</a></li>
+<li><a class="reference external" href="http://south.aeracode.org/">South</a> &gt;= 0.6</li>
+<li><a class="reference external" href="http://www.feedparser.org/">feedparser</a> &gt;= 4.0</li>
 <li><a class="reference external" href="http://codespeak.net/lxml/">lxml</a> &gt;= 2.0</li>
 </ul>
-<p>To install these on Debian-based Linux distributions, like Ubuntu, simply run:</p>
-<div class="highlight-python"><pre>sudo aptitude install python-django python-django-south \
-    python-feedparser python-lxml</pre>
+<p>To install these on Ubuntu 9.10, run:</p>
+<div class="highlight-python"><pre>sudo aptitude install python-pip python-django python-feedparser \
+    python-lxml python-imaging
+sudo pip install South</pre>
+</div>
+<p>To install these on Ubuntu 10.04, run:</p>
+<div class="highlight-python"><pre>sudo aptitude install python-django python-django-south python-feedparser \
+    python-lxml python-imaging</pre>
 </div>
 <p>If you are running Mac OS X with <a class="reference external" href="http://www.macports.org/">MacPorts</a>
 installed, you can install the dependencies by running:</p>
-<div class="highlight-python"><pre>sudo ports install python26 py26-django py26-south \
-    py26-feedparser py26-lxml</pre>
+<div class="highlight-python"><pre>sudo ports install python26 py26-django py26-south py26-feedparser \
+    py26-lxml py26-pil</pre>
 </div>
 </div>
 <div class="section" id="optional-dependencies-for-real-deployments">

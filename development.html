@@ -65,9 +65,6 @@ gives +5 karma and kudos.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">comics.aggregator.command</span></tt></dt>
 <dd>Use comic week schedule to crawl less often on non-schedule days.</dd>
-<dt><tt class="docutils literal"><span class="pre">comics.core.models</span></tt></dt>
-<dd>Replace Strip.filename with an ImageField, and add fields for image height
-and width.</dd>
 <dt><tt class="docutils literal"><span class="pre">comics.core.utils.navigation</span></tt></dt>
 <dd>Unit test and refactor.</dd>
 </dl>
@@ -109,8 +106,7 @@ documentation as a <em>change specification</em>.</p>
 <h2>Data model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
 <p><em>comics</em>&#8216; data model is very simple. The <tt class="docutils literal"><span class="pre">core</span></tt> app consists of three models;
 <tt class="docutils literal"><span class="pre">Comic</span></tt>, <tt class="docutils literal"><span class="pre">Release</span></tt>, and <tt class="docutils literal"><span class="pre">Strip</span></tt>. The <tt class="docutils literal"><span class="pre">sets</span></tt> app adds an additional
-model named <tt class="docutils literal"><span class="pre">Set</span></tt>. Changes to the data model are managed using <cite>South
-&lt;http://south.aeracode.org/&gt;_</cite> database migrations. If you need to change
+model named <tt class="docutils literal"><span class="pre">Set</span></tt>. Changes to the data model are managed using <a class="reference external" href="http://south.aeracode.org/">South</a> database migrations. If you need to change
 the models, please provide the needed migrations.</p>
 <img alt="images/data_model.png" src="images/data_model.png" />
 <p>The above data model diagram was generated using the Django app
