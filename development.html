@@ -59,26 +59,18 @@ gives +5 karma and kudos.</p>
 </div>
 <div class="section" id="todo-list">
 <h2>Todo list<a class="headerlink" href="#todo-list" title="Permalink to this headline">¶</a></h2>
-<p>A mostly unordered list of things to fix. Patches accepted.</p>
-<div class="section" id="improvements">
-<h3>Improvements<a class="headerlink" href="#improvements" title="Permalink to this headline">¶</a></h3>
+<p>A loosely prioritized list of things to fix. Patches accepted.</p>
 <dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">multi-image</span></tt></dt>
+<dd>Support multiple images per comic release, see <a class="reference external" href="specs/multi-image.html#spec-multi-image"><em>Spec: Multiple images per comic release</em></a>.</dd>
+<dt><tt class="docutils literal"><span class="pre">bin/smush</span></tt></dt>
+<dd>Process images with <tt class="docutils literal"><span class="pre">bin/smush</span></tt> to reduce their size 10-20% (without
+affecting their quality) and thus reducing page load time.</dd>
 <dt><tt class="docutils literal"><span class="pre">comics.aggregator.command</span></tt></dt>
 <dd>Use comic week schedule to crawl less often on non-schedule days.</dd>
 <dt><tt class="docutils literal"><span class="pre">comics.core.utils.navigation</span></tt></dt>
 <dd>Unit test and refactor.</dd>
 </dl>
-</div>
-<div class="section" id="new-features">
-<h3>New features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>Support multiple strips per comic per day, which requires:<ul>
-<li>Change of naming scheme for image files from date to checksum.</li>
-<li>Support for returning multiple <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt> from one <tt class="docutils literal"><span class="pre">crawl()</span></tt>.</li>
-</ul>
-</li>
-</ul>
-</div>
 </div>
 <div class="section" id="change-specifications">
 <h2>Change specifications<a class="headerlink" href="#change-specifications" title="Permalink to this headline">¶</a></h2>
@@ -90,7 +82,7 @@ documentation as a <em>change specification</em>.</p>
 <li class="toctree-l2"><a class="reference external" href="specs/crawler-meta.html#implementation-plan">Implementation plan</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="specs/multi-image.html">Spec: Multiple images per release</a><ul>
+<li class="toctree-l1"><a class="reference external" href="specs/multi-image.html">Spec: Multiple images per comic release</a><ul>
 <li class="toctree-l2"><a class="reference external" href="specs/multi-image.html#goals">Goals</a></li>
 <li class="toctree-l2"><a class="reference external" href="specs/multi-image.html#implementation-plan">Implementation plan</a></li>
 </ul>
@@ -141,11 +133,7 @@ improved tests for <em>comics</em>&#8216; functionality it will be greatly appre
             <ul>
 <li><a class="reference external" href="">Development</a><ul>
 <li><a class="reference external" href="#how-to-contribute">How to contribute</a></li>
-<li><a class="reference external" href="#todo-list">Todo list</a><ul>
-<li><a class="reference external" href="#improvements">Improvements</a></li>
-<li><a class="reference external" href="#new-features">New features</a></li>
-</ul>
-</li>
+<li><a class="reference external" href="#todo-list">Todo list</a></li>
 <li><a class="reference external" href="#change-specifications">Change specifications</a><ul>
 </ul>
 </li>

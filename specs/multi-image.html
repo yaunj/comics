@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Spec: Multiple images per release &mdash; comics v1.0a0 documentation</title>
+    <title>Spec: Multiple images per comic release &mdash; comics v1.0a0 documentation</title>
     <link rel="stylesheet" href="../static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -47,8 +47,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="spec-multiple-images-per-release">
-<h1>Spec: Multiple images per release<a class="headerlink" href="#spec-multiple-images-per-release" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="spec-multiple-images-per-comic-release">
+<span id="spec-multi-image"></span><h1>Spec: Multiple images per comic release<a class="headerlink" href="#spec-multiple-images-per-comic-release" title="Permalink to this headline">¶</a></h1>
 <dl class="docutils">
 <dt><em>Spec created:</em></dt>
 <dd>2009-12-14</dd>
@@ -65,11 +65,16 @@
 <div class="section" id="implementation-plan">
 <h2>Implementation plan<a class="headerlink" href="#implementation-plan" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
+<li>[done, 2009-01-03] Change naming scheme for image files from date to
+checksum.</li>
 <li>Rename <tt class="docutils literal"><span class="pre">Strip</span></tt> to <tt class="docutils literal"><span class="pre">Image</span></tt>.</li>
-<li>Move <tt class="docutils literal"><span class="pre">title</span></tt> and <tt class="docutils literal"><span class="pre">text</span></tt> from <tt class="docutils literal"><span class="pre">Image</span></tt> to <tt class="docutils literal"><span class="pre">Release</span></tt>.</li>
 <li>Replace the <tt class="docutils literal"><span class="pre">Release.strip</span></tt> foreign key with a many-to-many relation to
 <tt class="docutils literal"><span class="pre">Image</span></tt>.</li>
-<li>Update aggregator, web view and feed view accordingly.</li>
+<li>Consider removing the foreign key <tt class="docutils literal"><span class="pre">Release.comic</span></tt> and instead infer it
+from the <tt class="docutils literal"><span class="pre">Image</span></tt> relation.</li>
+<li>Update aggregator to support multiple <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt> from one
+<tt class="docutils literal"><span class="pre">crawl()</span></tt>.</li>
+<li>Update web view and feed view accordingly.</li>
 </ol>
 </div>
 </div>
@@ -82,7 +87,7 @@
         <div class="sphinxsidebarwrapper">
             <h3><a href="../index.html">Table Of Contents</a></h3>
             <ul>
-<li><a class="reference external" href="">Spec: Multiple images per release</a><ul>
+<li><a class="reference external" href="">Spec: Multiple images per comic release</a><ul>
 <li><a class="reference external" href="#goals">Goals</a></li>
 <li><a class="reference external" href="#implementation-plan">Implementation plan</a></li>
 </ul>
