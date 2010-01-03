@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Spec: Multiple images per comic release &mdash; comics v1.0a0 documentation</title>
+    <title>Spec-002: Crawler meta data in Python code &mdash; comics v1.0a0 documentation</title>
     <link rel="stylesheet" href="../static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -21,8 +21,8 @@
     <script type="text/javascript" src="../static/doctools.js"></script>
     <link rel="top" title="comics v1.0a0 documentation" href="../index.html" />
     <link rel="up" title="Development" href="../development.html" />
-    <link rel="next" title="Spec: Multiple releases of a single comic strip" href="multi-release.html" />
-    <link rel="prev" title="Spec: Crawler meta data in Python code" href="crawler-meta.html" /> 
+    <link rel="next" title="Spec-003: Multiple images per comic release" href="003-multi-image.html" />
+    <link rel="prev" title="Spec-001: Multiple releases of a single comic strip" href="001-multi-release.html" /> 
   </head>
   <body>
     <div class="related">
@@ -32,10 +32,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="multi-release.html" title="Spec: Multiple releases of a single comic strip"
+          <a href="003-multi-image.html" title="Spec-003: Multiple images per comic release"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="crawler-meta.html" title="Spec: Crawler meta data in Python code"
+          <a href="001-multi-release.html" title="Spec-001: Multiple releases of a single comic strip"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">comics v1.0a0 documentation</a> &raquo;</li>
           <li><a href="../development.html" accesskey="U">Development</a> &raquo;</li> 
@@ -47,34 +47,35 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="spec-multiple-images-per-comic-release">
-<span id="spec-multi-image"></span><h1>Spec: Multiple images per comic release<a class="headerlink" href="#spec-multiple-images-per-comic-release" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="spec-002-crawler-meta-data-in-python-code">
+<h1>Spec-002: Crawler meta data in Python code<a class="headerlink" href="#spec-002-crawler-meta-data-in-python-code" title="Permalink to this headline">¶</a></h1>
 <dl class="docutils">
 <dt><em>Spec created:</em></dt>
-<dd>2009-12-14</dd>
+<dd>2009-06-13</dd>
 <dt><em>Spec implemented:</em></dt>
-<dd>N/A</dd>
+<dd>2009-07-18</dd>
 </dl>
 <div class="section" id="goals">
 <h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Some comic releases consists of multiple images. The goal is to change
-<em>comics</em>&#8216; data model to support this.</li>
+<li>Remove the need for patching common/fixtures/initial_data.json when adding
+new comic crawlers.</li>
+<li>Everything needed for adding a new comic in one file.</li>
+<li>Automatic creation of a new Comic instance when adding a crawler.</li>
+<li>No adding of Comic instances before the matching crawler is in place.</li>
 </ul>
 </div>
 <div class="section" id="implementation-plan">
 <h2>Implementation plan<a class="headerlink" href="#implementation-plan" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li>[done, 2009-01-03] Change naming scheme for image files from date to
-checksum.</li>
-<li>Rename <tt class="docutils literal"><span class="pre">Strip</span></tt> to <tt class="docutils literal"><span class="pre">Image</span></tt>.</li>
-<li>Replace the <tt class="docutils literal"><span class="pre">Release.strip</span></tt> foreign key with a many-to-many relation to
-<tt class="docutils literal"><span class="pre">Image</span></tt>.</li>
-<li>Consider removing the foreign key <tt class="docutils literal"><span class="pre">Release.comic</span></tt> and instead infer it
-from the <tt class="docutils literal"><span class="pre">Image</span></tt> relation.</li>
-<li>Update aggregator to support multiple <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt> from one
-<tt class="docutils literal"><span class="pre">crawl()</span></tt>.</li>
-<li>Update web view and feed view accordingly.</li>
+<li>Add a ComicMeta class in each crawler module containing the information
+previously added as fixtures.</li>
+<li>Add a management command &#8216;loadcomicmeta&#8217; which reads the ComicMeta classes
+and adds new Comic instances to the database.
+- Let the user specify which crawlers to add with &#8216;-c comicslug&#8217;.</li>
+<li>Add ComicMeta to all existing crawlers.</li>
+<li>Remove common/fixtures/initial_data.json.</li>
+<li>As a bonus, add support for merging ComicMeta changes into the database.</li>
 </ol>
 </div>
 </div>
@@ -87,7 +88,7 @@ from the <tt class="docutils literal"><span class="pre">Image</span></tt> relati
         <div class="sphinxsidebarwrapper">
             <h3><a href="../index.html">Table Of Contents</a></h3>
             <ul>
-<li><a class="reference external" href="">Spec: Multiple images per comic release</a><ul>
+<li><a class="reference external" href="">Spec-002: Crawler meta data in Python code</a><ul>
 <li><a class="reference external" href="#goals">Goals</a></li>
 <li><a class="reference external" href="#implementation-plan">Implementation plan</a></li>
 </ul>
@@ -95,11 +96,11 @@ from the <tt class="docutils literal"><span class="pre">Image</span></tt> relati
 </ul>
 
             <h4>Previous topic</h4>
-            <p class="topless"><a href="crawler-meta.html"
-                                  title="previous chapter">Spec: Crawler meta data in Python code</a></p>
+            <p class="topless"><a href="001-multi-release.html"
+                                  title="previous chapter">Spec-001: Multiple releases of a single comic strip</a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="multi-release.html"
-                                  title="next chapter">Spec: Multiple releases of a single comic strip</a></p>
+            <p class="topless"><a href="003-multi-image.html"
+                                  title="next chapter">Spec-003: Multiple images per comic release</a></p>
           <div id="searchbox" style="display: none">
             <h3>Quick search</h3>
               <form class="search" action="../search.html" method="get">
@@ -124,10 +125,10 @@ from the <tt class="docutils literal"><span class="pre">Image</span></tt> relati
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="multi-release.html" title="Spec: Multiple releases of a single comic strip"
+          <a href="003-multi-image.html" title="Spec-003: Multiple images per comic release"
              >next</a> |</li>
         <li class="right" >
-          <a href="crawler-meta.html" title="Spec: Crawler meta data in Python code"
+          <a href="001-multi-release.html" title="Spec-001: Multiple releases of a single comic strip"
              >previous</a> |</li>
         <li><a href="../index.html">comics v1.0a0 documentation</a> &raquo;</li>
           <li><a href="../development.html" >Development</a> &raquo;</li> 

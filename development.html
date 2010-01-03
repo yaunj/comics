@@ -20,7 +20,7 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="top" title="comics v1.0a0 documentation" href="index.html" />
-    <link rel="next" title="Spec: Crawler meta data in Python code" href="specs/crawler-meta.html" />
+    <link rel="next" title="Spec-001: Multiple releases of a single comic strip" href="specs/001-multi-release.html" />
     <link rel="prev" title="Deployment" href="deployment.html" /> 
   </head>
   <body>
@@ -31,7 +31,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="specs/crawler-meta.html" title="Spec: Crawler meta data in Python code"
+          <a href="specs/001-multi-release.html" title="Spec-001: Multiple releases of a single comic strip"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="deployment.html" title="Deployment"
@@ -62,7 +62,7 @@ gives +5 karma and kudos.</p>
 <p>A loosely prioritized list of things to fix. Patches accepted.</p>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">multi-image</span></tt></dt>
-<dd>Support multiple images per comic release, see <a class="reference external" href="specs/multi-image.html#spec-multi-image"><em>Spec: Multiple images per comic release</em></a>.</dd>
+<dd>Support multiple images per comic release, see <a class="reference external" href="specs/003-multi-image.html#spec-multi-image"><em>Spec-003: Multiple images per comic release</em></a>.</dd>
 <dt><tt class="docutils literal"><span class="pre">bin/smush</span></tt></dt>
 <dd>Process images with <tt class="docutils literal"><span class="pre">bin/smush</span></tt> to reduce their size 10-20% (without
 affecting their quality) and thus reducing page load time.</dd>
@@ -77,19 +77,19 @@ affecting their quality) and thus reducing page load time.</dd>
 <p>When planning or doing larger changes to <em>comics</em>, notes may be added to the
 documentation as a <em>change specification</em>.</p>
 <ul>
-<li class="toctree-l1"><a class="reference external" href="specs/crawler-meta.html">Spec: Crawler meta data in Python code</a><ul>
-<li class="toctree-l2"><a class="reference external" href="specs/crawler-meta.html#goals">Goals</a></li>
-<li class="toctree-l2"><a class="reference external" href="specs/crawler-meta.html#implementation-plan">Implementation plan</a></li>
+<li class="toctree-l1"><a class="reference external" href="specs/001-multi-release.html">Spec-001: Multiple releases of a single comic strip</a><ul>
+<li class="toctree-l2"><a class="reference external" href="specs/001-multi-release.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference external" href="specs/001-multi-release.html#data-model-changes">Data model changes</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="specs/multi-image.html">Spec: Multiple images per comic release</a><ul>
-<li class="toctree-l2"><a class="reference external" href="specs/multi-image.html#goals">Goals</a></li>
-<li class="toctree-l2"><a class="reference external" href="specs/multi-image.html#implementation-plan">Implementation plan</a></li>
+<li class="toctree-l1"><a class="reference external" href="specs/002-crawler-meta.html">Spec-002: Crawler meta data in Python code</a><ul>
+<li class="toctree-l2"><a class="reference external" href="specs/002-crawler-meta.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference external" href="specs/002-crawler-meta.html#implementation-plan">Implementation plan</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="specs/multi-release.html">Spec: Multiple releases of a single comic strip</a><ul>
-<li class="toctree-l2"><a class="reference external" href="specs/multi-release.html#goals">Goals</a></li>
-<li class="toctree-l2"><a class="reference external" href="specs/multi-release.html#data-model-changes">Data model changes</a></li>
+<li class="toctree-l1"><a class="reference external" href="specs/003-multi-image.html">Spec-003: Multiple images per comic release</a><ul>
+<li class="toctree-l2"><a class="reference external" href="specs/003-multi-image.html#goals">Goals</a></li>
+<li class="toctree-l2"><a class="reference external" href="specs/003-multi-image.html#implementation-plan">Implementation plan</a></li>
 </ul>
 </li>
 </ul>
@@ -147,8 +147,8 @@ improved tests for <em>comics</em>&#8216; functionality it will be greatly appre
             <p class="topless"><a href="deployment.html"
                                   title="previous chapter">Deployment</a></p>
             <h4>Next topic</h4>
-            <p class="topless"><a href="specs/crawler-meta.html"
-                                  title="next chapter">Spec: Crawler meta data in Python code</a></p>
+            <p class="topless"><a href="specs/001-multi-release.html"
+                                  title="next chapter">Spec-001: Multiple releases of a single comic strip</a></p>
           <div id="searchbox" style="display: none">
             <h3>Quick search</h3>
               <form class="search" action="search.html" method="get">
@@ -173,7 +173,7 @@ improved tests for <em>comics</em>&#8216; functionality it will be greatly appre
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="specs/crawler-meta.html" title="Spec: Crawler meta data in Python code"
+          <a href="specs/001-multi-release.html" title="Spec-001: Multiple releases of a single comic strip"
              >next</a> |</li>
         <li class="right" >
           <a href="deployment.html" title="Deployment"
