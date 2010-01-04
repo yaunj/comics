@@ -127,8 +127,7 @@ UTC, without regard to DST) the comic is published.</p>
 <p class="last">Example: <tt class="docutils literal"><span class="pre">1</span></tt> for central Europe or <tt class="docutils literal"><span class="pre">-5</span></tt> for eastern U.S.</p>
 </dd>
 <dt><tt class="docutils literal"><span class="pre">Crawler.multiple_releases_per_day</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether to allow multiple strip releases
-per a day.</p>
+<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether to allow multiple releases per day.</p>
 <p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
 </dd>
 </dl>
@@ -137,13 +136,13 @@ per a day.</p>
 <h3>Fields used for downloading<a class="headerlink" href="#fields-used-for-downloading" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><tt class="docutils literal"><span class="pre">Crawler.has_rerun_releases</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether the comic reruns old strips as new
+<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether the comic reruns old images as new
 releases.</p>
 <p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
 </dd>
 <dt><tt class="docutils literal"><span class="pre">Crawler.check_image_mime_type</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">True</span></tt>. Whether to check the mime type of the strip
-image when downloading.</p>
+<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">True</span></tt>. Whether to check the mime type of the image
+when downloading.</p>
 <p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
 </dd>
 </dl>
@@ -167,8 +166,8 @@ let&#8217;s look at <em>XKCD</em>&#8216;s <tt class="docutils literal"><span cla
 <p>The <tt class="docutils literal"><span class="pre">crawl()</span></tt> method takes a single argument, <tt class="docutils literal"><span class="pre">pub_date</span></tt>, which is a
 <tt class="docutils literal"><span class="pre">datetime.date</span></tt> object for the date the crawler is currently crawling. The
 goal of the method is to return a <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt> object containing at least
-the URL of the strip image for <tt class="docutils literal"><span class="pre">pub_date</span></tt> and optionally a <tt class="docutils literal"><span class="pre">title</span></tt> and
-<tt class="docutils literal"><span class="pre">text</span></tt> accompanying the image. <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>&#8216;s signature is:</p>
+the URL of the image for <tt class="docutils literal"><span class="pre">pub_date</span></tt> and optionally a <tt class="docutils literal"><span class="pre">title</span></tt> and <tt class="docutils literal"><span class="pre">text</span></tt>
+accompanying the image. <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>&#8216;s signature is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -183,8 +182,8 @@ the URL of the strip image for <tt class="docutils literal"><span class="pre">pu
 <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>For some crawlers, this is all you need. If the strip image URL is predictable
-and based upon the <tt class="docutils literal"><span class="pre">pub_date</span></tt> in some way, just create the URL with the help
+<p>For some crawlers, this is all you need. If the image URL is predictable and
+based upon the <tt class="docutils literal"><span class="pre">pub_date</span></tt> in some way, just create the URL with the help
 of <a class="reference external" href="http://docs.python.org/library/datetime.html#strftime-behavior">Python&#8217;s strftime documentation</a>, and return
 it wrapped in a <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
@@ -211,7 +210,7 @@ extract content from HTML:</p>
 </div>
 <p>This is a common pattern for crawlers. Another common patterns is to use a feed
 to find the web page URL for the given date, then parse that web page to find
-the strip image URL.</p>
+the image URL.</p>
 <p>For a primer on CSS selectors, see <a class="reference internal" href="#css-selectors"><em>Matching HTML elements using CSS selectors</em></a>.</p>
 <div class="section" id="available-methods">
 <h3>Available methods<a class="headerlink" href="#available-methods" title="Permalink to this headline">¶</a></h3>
@@ -253,7 +252,7 @@ initialized with a web page URL:</p>
 <dd>Returns all feed elements.</dd>
 </dl>
 <p>Typically, a crawler uses <tt class="docutils literal"><span class="pre">for_date(date)</span></tt> and loops over all entries it
-returns to find the strip image URL:</p>
+returns to find the image URL:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
     <span class="c"># parsing comes here</span>
     <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
@@ -329,10 +328,9 @@ simply write:</p>
 <p>When the first version of you crawler is complete, it&#8217;s time to test it.</p>
 <p>The file name is important, as it is used as the comic&#8217;s slug. This means that
 it must be unique within the <em>comics</em> installation, and that it is used in the
-URLs <em>comics</em> will serve the comic strips at. For this example, we call the
-crawler file <tt class="docutils literal"><span class="pre">foo.py</span></tt>. The file must be placed in the
-<tt class="docutils literal"><span class="pre">comics/comics/comics/</span></tt> directory, and will be available in Python as
-<tt class="docutils literal"><span class="pre">comics.comics.foo</span></tt>.</p>
+URLs <em>comics</em> will serve the comic at. For this example, we call the crawler
+file <tt class="docutils literal"><span class="pre">foo.py</span></tt>. The file must be placed in the <tt class="docutils literal"><span class="pre">comics/comics/comics/</span></tt>
+directory, and will be available in Python as <tt class="docutils literal"><span class="pre">comics.comics.foo</span></tt>.</p>
 <div class="section" id="loading-meta-for-your-new-comic">
 <h3>Loading <tt class="docutils literal"><span class="pre">Meta</span></tt> for your new comic<a class="headerlink" href="#loading-meta-for-your-new-comic" title="Permalink to this headline">¶</a></h3>
 <p>For <em>comics</em> to know about your new crawler, you need to load the comic meta
@@ -345,11 +343,12 @@ data into <em>comics</em>&#8216;s database. To do so, we run the <tt class="docu
 <div class="section" id="running-the-crawler">
 <h3>Running the crawler<a class="headerlink" href="#running-the-crawler" title="Permalink to this headline">¶</a></h3>
 <p>When <tt class="docutils literal"><span class="pre">loadmeta</span></tt> has created a <tt class="docutils literal"><span class="pre">Comic</span></tt> instance for the new crawler, you may
-use your new crawler to fetch the comic&#8217;s strip for the current date by
+use your new crawler to fetch the comic&#8217;s release for the current date by
 running:</p>
 <div class="highlight-python"><pre>python manage.py getcomics -c foo</pre>
 </div>
-<p>If you want to get comics strips for more than the current day, you may specify a date range to crawl, like:</p>
+<p>If you want to get comics releases for more than the current day, you may
+specify a date range to crawl, like:</p>
 <div class="highlight-python"><pre>python manage.py getcomics -c foo -f 2009-01-01 -t 2009-03-31</pre>
 </div>
 <p>The date range will automatically be adjusted to the crawlers <em>history
