@@ -64,13 +64,12 @@
 <li>[done, 2009-01-03] Change naming scheme for image files from date to
 checksum.</li>
 <li>[done, 2009-01-04] Rename <tt class="docutils literal"><span class="pre">Strip</span></tt> to <tt class="docutils literal"><span class="pre">Image</span></tt>.</li>
-<li>Replace the <tt class="docutils literal"><span class="pre">Release.strip</span></tt> foreign key with a many-to-many relation to
-<tt class="docutils literal"><span class="pre">Image</span></tt>.</li>
-<li>Consider removing the foreign key <tt class="docutils literal"><span class="pre">Release.comic</span></tt> and instead infer it
-from the <tt class="docutils literal"><span class="pre">Image</span></tt> relation.</li>
-<li>Update aggregator to support multiple <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt> from one
-<tt class="docutils literal"><span class="pre">crawl()</span></tt>.</li>
-<li>Update web view and feed view accordingly.</li>
+<li>[done, 2009-01-05] Replace the <tt class="docutils literal"><span class="pre">Release.image</span></tt> foreign key with a
+many-to-many relation to <tt class="docutils literal"><span class="pre">Image</span></tt>.</li>
+<li>[done, 2009-01-05] Update web view and feed view to support multiple images
+per release.</li>
+<li>Update aggregator to support multiple images per release.</li>
+<li>Update docs on how to create crawlers.</li>
 </ol>
 </div>
 </div>

@@ -181,6 +181,16 @@ caching from your <tt class="docutils literal"><span class="pre">local.py</span>
 by mail to the given mail address. <tt class="docutils literal"><span class="pre">1</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span> <span class="pre">*</span></tt> specifies that the command
 should be run 1 minute past every hour.</p>
 </div>
+<div class="section" id="database-performance-tuning">
+<h2>Database performance tuning<a class="headerlink" href="#database-performance-tuning" title="Permalink to this headline">¶</a></h2>
+<p>To get a 3X speedup on page generation time you should add an additional index
+ranging over the three fields of the <tt class="docutils literal"><span class="pre">comics_release</span></tt> table. In PostgreSQL
+this may be achieved by running the following SQL command:</p>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="ss">&quot;comics_release_comic_id_pub_date_image_id&quot;</span>
+    <span class="k">ON</span> <span class="ss">&quot;comics_release&quot;</span> <span class="p">(</span><span class="ss">&quot;comic_id&quot;</span><span class="p">,</span> <span class="ss">&quot;pub_date&quot;</span><span class="p">,</span> <span class="ss">&quot;image_id&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -196,6 +206,7 @@ should be run 1 minute past every hour.</p>
 <li><a class="reference external" href="#example-wsgi-file">Example WSGI file</a></li>
 <li><a class="reference external" href="#example-settings-local-py">Example <tt class="docutils literal"><span class="pre">settings/local.py</span></tt></a></li>
 <li><a class="reference external" href="#example-cronjob">Example cronjob</a></li>
+<li><a class="reference external" href="#database-performance-tuning">Database performance tuning</a></li>
 </ul>
 </li>
 </ul>
