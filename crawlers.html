@@ -56,7 +56,7 @@ how to write new crawlers for <em>comics</em>.</p>
 <p>The crawlers are split in two separate pieces. The <tt class="docutils literal"><span class="pre">Meta</span></tt> part contains meta
 data about the comic used for display at the web site. The <tt class="docutils literal"><span class="pre">Crawler</span></tt> part
 contains properties needed for crawling and the crawler implementation itself.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">comics.aggregator.crawler</span> <span class="kn">import</span> <span class="n">CrawlerBase</span><span class="p">,</span> <span class="n">CrawlerResult</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">comics.aggregator.crawler</span> <span class="kn">import</span> <span class="n">CrawlerBase</span><span class="p">,</span> <span class="n">CrawlerImage</span>
 <span class="kn">from</span> <span class="nn">comics.meta.base</span> <span class="kn">import</span> <span class="n">MetaBase</span>
 
 <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">MetaBase</span><span class="p">):</span>
@@ -77,7 +77,7 @@ contains properties needed for crawling and the crawler implementation itself.</
             <span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
             <span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">title</span>
             <span class="n">text</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">alt</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -158,42 +158,71 @@ let&#8217;s look at <em>XKCD</em>&#8216;s <tt class="docutils literal"><span cla
         <span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
         <span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">title</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">alt</span><span class="p">(</span><span class="s">&#39;img[src*=&quot;/comics/&quot;]&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="arguments-and-return-values">
 <h3>Arguments and return values<a class="headerlink" href="#arguments-and-return-values" title="Permalink to this headline">¶</a></h3>
 <p>The <tt class="docutils literal"><span class="pre">crawl()</span></tt> method takes a single argument, <tt class="docutils literal"><span class="pre">pub_date</span></tt>, which is a
 <tt class="docutils literal"><span class="pre">datetime.date</span></tt> object for the date the crawler is currently crawling. The
-goal of the method is to return a <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt> object containing at least
+goal of the method is to return a <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> object containing at least
 the URL of the image for <tt class="docutils literal"><span class="pre">pub_date</span></tt> and optionally a <tt class="docutils literal"><span class="pre">title</span></tt> and <tt class="docutils literal"><span class="pre">text</span></tt>
-accompanying the image. <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>&#8216;s signature is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+accompanying the image. <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt>&#8216;s signature is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This means that you must always supply an URL, and that you can supply a
 <tt class="docutils literal"><span class="pre">text</span></tt> without a <tt class="docutils literal"><span class="pre">title</span></tt>. The following are all valid ways to create a
-<tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
-<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
-<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
-<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
-<span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+<tt class="docutils literal"><span class="pre">CrawlerImage</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+<span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+<span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+<span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+<span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For some crawlers, this is all you need. If the image URL is predictable and
 based upon the <tt class="docutils literal"><span class="pre">pub_date</span></tt> in some way, just create the URL with the help
 of <a class="reference external" href="http://docs.python.org/library/datetime.html#strftime-behavior">Python&#8217;s strftime documentation</a>, and return
-it wrapped in a <tt class="docutils literal"><span class="pre">CrawlerResult</span></tt>:</p>
+it wrapped in a <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://www.example.com/comics/</span><span class="si">%s</span><span class="s">.png&#39;</span> <span class="o">%</span> <span class="p">(</span>
         <span class="n">pub_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">),)</span>
-    <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Though, for most crawlers, some interaction with RSS or Atom feeds or web pages
 are needed. For this a web parser and a feed parser are provided.</p>
+</div>
+<div class="section" id="returning-multiple-images-for-a-single-comic-release">
+<h3>Returning multiple images for a single comic release<a class="headerlink" href="#returning-multiple-images-for-a-single-comic-release" title="Permalink to this headline">¶</a></h3>
+<p>Some comics got releases with multiple images, and thus returning a single
+<tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> will not be enough for you. For situations like these,
+<em>comics</em> lets you return a list of <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> objects from <tt class="docutils literal"><span class="pre">crawl()</span></tt>.
+The list should be ordered in the same way as the comic is meant to be read,
+with the first frame as the first element in the list. If the comic release got
+a <tt class="docutils literal"><span class="pre">title</span></tt>, add it to the first <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> object, and let the <tt class="docutils literal"><span class="pre">title</span></tt>
+field stay empty on the rest of the list elements. The same applies for the
+<tt class="docutils literal"><span class="pre">text</span></tt> field, unless each image actually got a different <tt class="docutils literal"><span class="pre">title</span></tt> or
+<tt class="docutils literal"><span class="pre">text</span></tt> string.</p>
+<p>The following is an example of a <tt class="docutils literal"><span class="pre">crawl()</span></tt> method which returns multiple
+images. It adds a <tt class="docutils literal"><span class="pre">title</span></tt> to the first list element, and different <tt class="docutils literal"><span class="pre">text</span></tt>
+to all of the elements.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
+    <span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://feeds.feedburner.com/Pidjin&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span> <span class="mf">10</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">content0</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img[src$=&quot;000</span><span class="si">%d</span><span class="s">.jpg&quot;]&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">content0</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;img[src$=&quot;000</span><span class="si">%d</span><span class="s">.jpg&quot;]&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">url</span> <span class="ow">and</span> <span class="n">text</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="mf">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="the-web-parser">
@@ -205,7 +234,7 @@ extract content from HTML:</p>
         <span class="n">pub_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y%m</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">),)</span>
     <span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_page</span><span class="p">(</span><span class="n">page_url</span><span class="p">)</span>
     <span class="n">url</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img[alt^=&quot;Strip for&quot;]&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This is a common pattern for crawlers. Another common patterns is to use a feed
@@ -255,7 +284,7 @@ initialized with a web page URL:</p>
 returns to find the image URL:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
     <span class="c"># parsing comes here</span>
-    <span class="k">return</span> <span class="n">CrawlerResult</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -392,6 +421,7 @@ and send me a <em>pull request</em> through GitHub.</p>
 </li>
 <li><a class="reference external" href="#the-crawler-crawl-method">The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method</a><ul>
 <li><a class="reference external" href="#arguments-and-return-values">Arguments and return values</a></li>
+<li><a class="reference external" href="#returning-multiple-images-for-a-single-comic-release">Returning multiple images for a single comic release</a></li>
 </ul>
 </li>
 <li><a class="reference external" href="#the-web-parser">The web parser</a><ul>
