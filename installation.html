@@ -102,32 +102,48 @@ real database and/or memcache:</p>
 </div>
 <div class="section" id="get-comics">
 <h2>Get <em>comics</em><a class="headerlink" href="#get-comics" title="Permalink to this headline">¶</a></h2>
-<p>Get hold of a fresh version of <em>comics</em> by cloning the Git repository:</p>
-<div class="highlight-python"><pre>git clone git://github.com/jodal/comics</pre>
-</div>
+<p>You can get hold of <em>comics</em> in two ways:</p>
+<ul class="simple">
+<li>Download the lastest release from <a class="reference external" href="http://github.com/jodal/comics/downloads">http://github.com/jodal/comics/downloads</a>.</li>
+<li>Get the latest development version of <em>comics</em> by cloning the Git
+repository, by running <tt class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git://github.com/jodal/comics</span></tt>.</li>
+</ul>
 </div>
 <div class="section" id="run-comics">
 <h2>Run <em>comics</em><a class="headerlink" href="#run-comics" title="Permalink to this headline">¶</a></h2>
 <p>To get <em>comics</em> to a state useful for testing of new crawlers and personal
 usage, the following steps are all that is needed.</p>
-<p>A file-based SQLite database will be used by default <a class="footnote-reference" href="#sqlite" id="id1">[1]</a>. To create the
-database and database schema, open a terminal, go to the <tt class="docutils literal"><span class="pre">comics/comics/</span></tt>
-directory, and run:</p>
+<div class="section" id="create-database">
+<h3>Create database<a class="headerlink" href="#create-database" title="Permalink to this headline">¶</a></h3>
+<p>A file-based SQLite database will be used, unless you have created a file
+<tt class="docutils literal"><span class="pre">comics/comics/settings/local.py</span></tt> where you have configured another database,
+like PostgreSQL.</p>
+<p>To create the database and database schema, open a terminal, go to the
+<tt class="docutils literal"><span class="pre">comics/comics/</span></tt> directory, and run:</p>
 <div class="highlight-python"><pre>python manage.py syncdb</pre>
 </div>
 <p>Parts of the database is managed by the South database migrations tool. To
 create that part of the database, run:</p>
 <div class="highlight-python"><pre>python manage.py migrate</pre>
 </div>
+</div>
+<div class="section" id="seed-database">
+<h3>Seed database<a class="headerlink" href="#seed-database" title="Permalink to this headline">¶</a></h3>
 <p>Then we need to seed the database with information on what comics exist:</p>
 <div class="highlight-python"><pre>python manage.py loadmeta</pre>
 </div>
 <p>Optionally, you can add <tt class="docutils literal"><span class="pre">-c</span> <span class="pre">xkcd</span></tt> to only load the <em>XKCD</em> comic from
 <tt class="docutils literal"><span class="pre">comics/comics/comics/xkcd.py</span></tt>.</p>
+</div>
+<div class="section" id="get-some-comics">
+<h3>Get some comics<a class="headerlink" href="#get-some-comics" title="Permalink to this headline">¶</a></h3>
 <p>Next, we need to get hold of some comic releases, so we will crawl the web for
 them:</p>
 <div class="highlight-python"><pre>python manage.py getcomics</pre>
 </div>
+</div>
+<div class="section" id="development-web-server">
+<h3>Development web server<a class="headerlink" href="#development-web-server" title="Permalink to this headline">¶</a></h3>
 <p>Finally, to be able to browse the comic releases we have aggregated, start the
 Django development web server by running:</p>
 <div class="highlight-python"><pre>python manage.py runserver</pre>
@@ -136,17 +152,13 @@ Django development web server by running:</p>
 browse all available comics. If you provided a username and password at the
 <tt class="docutils literal"><span class="pre">syncdb</span></tt> step, you can log in at <a class="reference external" href="http://localhost:8000/admin/">http://localhost:8000/admin/</a> to do simple
 administration tasks, like removing comics or releases.</p>
+</div>
+<div class="section" id="final-notes">
+<h3>Final notes<a class="headerlink" href="#final-notes" title="Permalink to this headline">¶</a></h3>
 <p>All of these commands answers to the <tt class="docutils literal"><span class="pre">--help</span></tt> argument. I.e. <tt class="docutils literal"><span class="pre">getcomics</span></tt>
 can crawl specific comics, and arbitrary ranges of dates instead of just
 getting the latest release.</p>
-<p class="rubric">Footnotes</p>
-<table class="docutils footnote" frame="void" id="sqlite" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Unless you have created a file <tt class="docutils literal"><span class="pre">comics/comics/settings/local.py</span></tt>
-where you have configured another database.</td></tr>
-</tbody>
-</table>
+</div>
 </div>
 </div>
 
@@ -166,7 +178,14 @@ where you have configured another database.</td></tr>
 </ul>
 </li>
 <li><a class="reference external" href="#get-comics">Get <em>comics</em></a></li>
-<li><a class="reference external" href="#run-comics">Run <em>comics</em></a></li>
+<li><a class="reference external" href="#run-comics">Run <em>comics</em></a><ul>
+<li><a class="reference external" href="#create-database">Create database</a></li>
+<li><a class="reference external" href="#seed-database">Seed database</a></li>
+<li><a class="reference external" href="#get-some-comics">Get some comics</a></li>
+<li><a class="reference external" href="#development-web-server">Development web server</a></li>
+<li><a class="reference external" href="#final-notes">Final notes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
