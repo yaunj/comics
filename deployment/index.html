@@ -56,6 +56,18 @@ deployment documentation</a> for further details.</p>
 application and batch job is both running as the user <tt class="docutils literal"><span class="pre">comics-user</span></tt>. The
 static media files, like comic images, are served from
 <a class="reference external" href="http://comics.example.com/media/">http://comics.example.com/media/</a>, but may also be served from a different host.</p>
+<div class="section" id="database">
+<h2>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h2>
+<p><em>comics</em> should theoretically work with any database supported by Django.
+Though, development is mostly done on SQLite 3 and PostgreSQL 8.x. For
+production use, PostgreSQL is the recommended choice.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are going to use SQLite in a deployment with Apache and so on, you
+need to ensure that the user the web server will be running as has write
+access to the <em>directory</em> the SQLite database file is located in.</p>
+</div>
+</div>
 <div class="section" id="example-apache-vhost">
 <h2>Example Apache vhost<a class="headerlink" href="#example-apache-vhost" title="Permalink to this headline">¶</a></h2>
 <p>This example requires your Apache to have the <tt class="docutils literal"><span class="pre">mod_wsgi</span></tt> module. For
@@ -110,7 +122,7 @@ example will work without them.</p>
 <tt class="docutils literal"><span class="pre">sys.path</span></tt> line assumes that the file is located in a directory inside the
 <em>comics</em> project, as the <tt class="docutils literal"><span class="pre">prod.wsgi</span></tt> shipped with <em>comics</em> is. If your WSGI
 file is located elsewhere, the <tt class="docutils literal"><span class="pre">sys.path</span></tt> line must be changed to point to
-whereever your <em>comics</em> project folder is located.</p>
+wherever your <em>comics</em> project folder is located.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -171,7 +183,8 @@ caching from your <tt class="docutils literal"><span class="pre">local.py</span>
 </div>
 <div class="section" id="example-cronjob">
 <h2>Example cronjob<a class="headerlink" href="#example-cronjob" title="Permalink to this headline">¶</a></h2>
-<p>To get new comics, you should run <tt class="docutils literal"><span class="pre">getcomics</span></tt> regularily. One way is to use <tt class="docutils literal"><span class="pre">cron</span></tt> e.g. by placing the following in <tt class="docutils literal"><span class="pre">/etc/cron.d/comics</span></tt>:</p>
+<p>To get new comics, you should run <tt class="docutils literal"><span class="pre">getcomics</span></tt> regularly. One way is to use
+<tt class="docutils literal"><span class="pre">cron</span></tt> e.g. by placing the following in <tt class="docutils literal"><span class="pre">/etc/cron.d/comics</span></tt>:</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="nv">MAILTO</span><span class="o">=</span>comics@example.com
 <span class="nv">PYTHONPATH</span><span class="o">=</span>/path/to/comics
 1 * * * * comics-user /path/to/comics/comics/manage.py getcomics -v0
@@ -192,6 +205,7 @@ should be run 1 minute past every hour.</p>
             <h3><a href="../">Table Of Contents</a></h3>
             <ul>
 <li><a class="reference external" href="">Deployment</a><ul>
+<li><a class="reference external" href="#database">Database</a></li>
 <li><a class="reference external" href="#example-apache-vhost">Example Apache vhost</a></li>
 <li><a class="reference external" href="#example-wsgi-file">Example WSGI file</a></li>
 <li><a class="reference external" href="#example-settings-local-py">Example <tt class="docutils literal"><span class="pre">settings/local.py</span></tt></a></li>
