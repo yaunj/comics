@@ -145,6 +145,17 @@ releases.</p>
 when downloading.</p>
 <p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
 </dd>
+<dt><tt class="docutils literal"><span class="pre">Crawler.headers</span></tt></dt>
+<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">None</span></tt>. Any HTTP headers to send with any URI
+request for values.  Useful if you&#8217;re pulling comics from a site that
+checks either the <tt class="docutils literal"><span class="pre">Referer</span></tt> or <tt class="docutils literal"><span class="pre">User-Agent</span></tt>.  If you can view the comic
+using your browser but not when using your loader for identical URLs, try
+setting the <tt class="docutils literal"><span class="pre">Referer</span></tt> to be <tt class="docutils literal"><span class="pre">http://www.thesite.com/</span></tt> or set the
+<tt class="docutils literal"><span class="pre">User-Agent</span></tt> to be <tt class="docutils literal"><span class="pre">Mozilla/4.0</span> <span class="pre">(compatible;</span> <span class="pre">MSIE</span> <span class="pre">8.0;</span> <span class="pre">Windows</span> <span class="pre">NT</span> <span class="pre">5.1;</span>
+<span class="pre">Trident/4.0)</span></tt>.</p>
+<p class="last">Example:
+<tt class="docutils literal"><span class="pre">{'Referer':</span> <span class="pre">'http://www.example.com/',</span> <span class="pre">'Host':</span> <span class="pre">http://www.example.com/'}</span></tt></p>
+</dd>
 </dl>
 </div>
 </div>
@@ -243,22 +254,34 @@ the image URL.</p>
 <p>For a primer on CSS selectors, see <a class="reference internal" href="#css-selectors"><em>Matching HTML elements using CSS selectors</em></a>.</p>
 <div class="section" id="available-methods">
 <h3>Available methods<a class="headerlink" href="#available-methods" title="Permalink to this headline">¶</a></h3>
+<p>The available methods only require a CSS selector, <tt class="docutils literal"><span class="pre">selector</span></tt>, to match tags.
+In the event that the selector doesn&#8217;t match any elements, <tt class="docutils literal"><span class="pre">default</span></tt> will be
+returned.</p>
+<p>If the <tt class="docutils literal"><span class="pre">selector</span></tt> matches multiple elements, one of two things will happen:</p>
+<ol class="arabic simple">
+<li>If <tt class="docutils literal"><span class="pre">allow_multiple</span></tt> is <tt class="xref docutils literal"><span class="pre">False</span></tt>, a <tt class="docutils literal"><span class="pre">MultipleElementsReturned</span></tt> exception
+is raised.</li>
+<li>If <tt class="docutils literal"><span class="pre">allow_multiple</span></tt> is <tt class="xref docutils literal"><span class="pre">True</span></tt>, a list of zero or more elements is
+returned with all of the elements matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</li>
+</ol>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">text(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dt><tt class="docutils literal"><span class="pre">text(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
 <dd>Returns the text contained by the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">src(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dt><tt class="docutils literal"><span class="pre">src(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
 <dd><p class="first">Returns the <tt class="docutils literal"><span class="pre">src</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</p>
 <p class="last">The web parser automatically expands relative URLs in the source, like
 <tt class="docutils literal"><span class="pre">/comics/2008-04-13.png</span></tt> to a full URL like
 <tt class="docutils literal"><span class="pre">http://www.example.com/2008-04-13.png</span></tt>, so you do not need to think
 about that.</p>
 </dd>
-<dt><tt class="docutils literal"><span class="pre">alt(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dt><tt class="docutils literal"><span class="pre">alt(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
 <dd>Returns the <tt class="docutils literal"><span class="pre">alt</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">title(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dt><tt class="docutils literal"><span class="pre">title(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
 <dd>Returns the <tt class="docutils literal"><span class="pre">title</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">href(selector,</span> <span class="pre">default=None)</span></tt></dt>
+<dt><tt class="docutils literal"><span class="pre">href(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
 <dd>Returns the <tt class="docutils literal"><span class="pre">href</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">value(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
+<dd>Returns the <tt class="docutils literal"><span class="pre">value</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
 <dt><tt class="docutils literal"><span class="pre">remove(selector)</span></tt></dt>
 <dd>Remove the elements matching <tt class="docutils literal"><span class="pre">selector</span></tt> from the parsed document.</dd>
 </dl>
