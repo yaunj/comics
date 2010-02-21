@@ -31,6 +31,9 @@
           <a href="../genindex/" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../modindex/" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
           <a href="../deployment/" title="Deployment"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -53,9 +56,10 @@ time of writing, about 100 crawlers are available in the
 how to write new crawlers for <em>comics</em>.</p>
 <div class="section" id="a-crawler-example">
 <h2>A crawler example<a class="headerlink" href="#a-crawler-example" title="Permalink to this headline">¶</a></h2>
-<p>The crawlers are split in two separate pieces. The <tt class="docutils literal"><span class="pre">Meta</span></tt> part contains meta
-data about the comic used for display at the web site. The <tt class="docutils literal"><span class="pre">Crawler</span></tt> part
-contains properties needed for crawling and the crawler implementation itself.</p>
+<p>The crawlers are split in two separate pieces. The <a title="Meta" class="reference internal" href="#Meta"><tt class="xref docutils literal"><span class="pre">Meta</span></tt></a> part contains
+meta data about the comic used for display at the web site. The
+<a title="Crawler" class="reference internal" href="#Crawler"><tt class="xref docutils literal"><span class="pre">Crawler</span></tt></a> part contains properties needed for crawling and the crawler
+implementation itself.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">comics.aggregator.crawler</span> <span class="kn">import</span> <span class="n">CrawlerBase</span><span class="p">,</span> <span class="n">CrawlerImage</span>
 <span class="kn">from</span> <span class="nn">comics.meta.base</span> <span class="kn">import</span> <span class="n">MetaBase</span>
 
@@ -82,87 +86,124 @@ contains properties needed for crawling and the crawler implementation itself.</
 </div>
 </div>
 <div class="section" id="the-meta-class-fields">
-<h2>The <tt class="docutils literal"><span class="pre">Meta</span></tt> class fields<a class="headerlink" href="#the-meta-class-fields" title="Permalink to this headline">¶</a></h2>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">Meta.name</span></tt></dt>
-<dd><em>Required.</em> A string with the name of the comic.</dd>
-<dt><tt class="docutils literal"><span class="pre">Meta.language</span></tt></dt>
-<dd><p class="first"><em>Required.</em> A two-letter string with the language code for the language
-used in the comic. Typically <tt class="docutils literal"><span class="pre">'en'</span></tt> or <tt class="docutils literal"><span class="pre">'no'</span></tt>.</p>
-<p class="last">Code must also be present in <tt class="docutils literal"><span class="pre">comics.core.models.Comic.LANGUAGES</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">Meta.url</span></tt></dt>
-<dd><em>Required.</em> A string with the URL of the comic&#8217;s web page.</dd>
-<dt><tt class="docutils literal"><span class="pre">Meta.start_date</span></tt></dt>
-<dd><em>Optional.</em> The first date the comic was published at.</dd>
-<dt><tt class="docutils literal"><span class="pre">Meta.end_date</span></tt></dt>
-<dd><em>Optional.</em> The last date the comic was published at if it is discontinued.</dd>
-<dt><tt class="docutils literal"><span class="pre">Meta.rights</span></tt></dt>
-<dd><em>Optional.</em> Name of the author and the comic&#8217;s license if available.</dd>
-</dl>
+<h2>The <a title="Meta" class="reference internal" href="#Meta"><tt class="xref docutils literal"><span class="pre">Meta</span></tt></a> class fields<a class="headerlink" href="#the-meta-class-fields" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Meta">
+<em class="property">
+class </em><tt class="descname">Meta</tt><a class="headerlink" href="#Meta" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="Meta.name">
+<tt class="descname">name</tt><a class="headerlink" href="#Meta.name" title="Permalink to this definition">¶</a></dt>
+<dd><em>Required.</em> A string with the name of the comic.</dd></dl>
+
+<dl class="attribute">
+<dt id="Meta.url">
+<tt class="descname">url</tt><a class="headerlink" href="#Meta.url" title="Permalink to this definition">¶</a></dt>
+<dd><em>Required.</em> A string with the URL of the comic&#8217;s web page.</dd></dl>
+
+<dl class="attribute">
+<dt id="Meta.start_date">
+<tt class="descname">start_date</tt><a class="headerlink" href="#Meta.start_date" title="Permalink to this definition">¶</a></dt>
+<dd><em>Optional.</em> The first date the comic was published at.</dd></dl>
+
+<dl class="attribute">
+<dt id="Meta.end_date">
+<tt class="descname">end_date</tt><a class="headerlink" href="#Meta.end_date" title="Permalink to this definition">¶</a></dt>
+<dd><em>Optional.</em> The last date the comic was published at if it is
+discontinued.</dd></dl>
+
+<dl class="attribute">
+<dt id="Meta.rights">
+<tt class="descname">rights</tt><a class="headerlink" href="#Meta.rights" title="Permalink to this definition">¶</a></dt>
+<dd><em>Optional.</em> Name of the author and the comic&#8217;s license if available.</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="the-crawler-class-fields">
-<h2>The <tt class="docutils literal"><span class="pre">Crawler</span></tt> class fields<a class="headerlink" href="#the-crawler-class-fields" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="fields-used-for-crawling">
-<h3>Fields used for crawling<a class="headerlink" href="#fields-used-for-crawling" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">Crawler.history_capable_date</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Date of oldest release available for crawling. Provide this
-<em>or</em> <tt class="docutils literal"><span class="pre">Crawler.history_capable_days</span></tt>. If both are present, this one will
-have precedence.</p>
-<p class="last">Example: <tt class="docutils literal"><span class="pre">'2008-03-08'</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">Crawler.history_capable_days</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Number of days a release is available for crawling. Provide
-this <em>or</em> <tt class="docutils literal"><span class="pre">Crawler.history_capable_date</span></tt>.</p>
-<p class="last">Example: <tt class="docutils literal"><span class="pre">32</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">Crawler.schedule</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> On what weekdays the comic is published.</p>
-<p class="last">Example: <tt class="docutils literal"><span class="pre">'Mo,We,Fr'</span></tt> or <tt class="docutils literal"><span class="pre">'Mo,Tu,We,Th,Fr,Sa,Su'</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">Crawler.time_zone</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> In approximately what time zone (in whole hours relative to
+<h2>The <a title="Crawler" class="reference internal" href="#Crawler"><tt class="xref docutils literal"><span class="pre">Crawler</span></tt></a> class fields<a class="headerlink" href="#the-crawler-class-fields" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Crawler">
+<em class="property">
+class </em><tt class="descname">Crawler</tt><a class="headerlink" href="#Crawler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="Crawler.history_capable_date">
+<tt class="descname">history_capable_date</tt><a class="headerlink" href="#Crawler.history_capable_date" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> Date of oldest release available for crawling.</p>
+<p>Provide this <em>or</em> <a title="Crawler.history_capable_days" class="reference internal" href="#Crawler.history_capable_days"><tt class="xref docutils literal"><span class="pre">Crawler.history_capable_days</span></tt></a>. If both are
+present, this one will have precedence.</p>
+<p>Example: <tt class="docutils literal"><span class="pre">'2008-03-08'</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Crawler.history_capable_days">
+<tt class="descname">history_capable_days</tt><a class="headerlink" href="#Crawler.history_capable_days" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> Number of days a release is available for crawling.</p>
+<p>Provide this <em>or</em> <a title="Crawler.history_capable_date" class="reference internal" href="#Crawler.history_capable_date"><tt class="xref docutils literal"><span class="pre">Crawler.history_capable_date</span></tt></a>.</p>
+<p>Example: <tt class="docutils literal"><span class="pre">32</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Crawler.schedule">
+<tt class="descname">schedule</tt><a class="headerlink" href="#Crawler.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> On what weekdays the comic is published.</p>
+<p>Example: <tt class="docutils literal"><span class="pre">'Mo,We,Fr'</span></tt> or <tt class="docutils literal"><span class="pre">'Mo,Tu,We,Th,Fr,Sa,Su'</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Crawler.time_zone">
+<tt class="descname">time_zone</tt><a class="headerlink" href="#Crawler.time_zone" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> In approximately what time zone (in whole hours relative to
 UTC, without regard to DST) the comic is published.</p>
-<p class="last">Example: <tt class="docutils literal"><span class="pre">1</span></tt> for central Europe or <tt class="docutils literal"><span class="pre">-5</span></tt> for eastern U.S.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">Crawler.multiple_releases_per_day</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether to allow multiple releases per day.</p>
-<p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="fields-used-for-downloading">
-<h3>Fields used for downloading<a class="headerlink" href="#fields-used-for-downloading" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">Crawler.has_rerun_releases</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether the comic reruns old images as new
-releases.</p>
-<p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">Crawler.check_image_mime_type</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">True</span></tt>. Whether to check the mime type of the image
-when downloading.</p>
-<p class="last">Example: <tt class="xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">Crawler.headers</span></tt></dt>
-<dd><p class="first"><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">None</span></tt>. Any HTTP headers to send with any URI
-request for values.  Useful if you&#8217;re pulling comics from a site that
-checks either the <tt class="docutils literal"><span class="pre">Referer</span></tt> or <tt class="docutils literal"><span class="pre">User-Agent</span></tt>.  If you can view the comic
-using your browser but not when using your loader for identical URLs, try
-setting the <tt class="docutils literal"><span class="pre">Referer</span></tt> to be <tt class="docutils literal"><span class="pre">http://www.thesite.com/</span></tt> or set the
-<tt class="docutils literal"><span class="pre">User-Agent</span></tt> to be <tt class="docutils literal"><span class="pre">Mozilla/4.0</span> <span class="pre">(compatible;</span> <span class="pre">MSIE</span> <span class="pre">8.0;</span> <span class="pre">Windows</span> <span class="pre">NT</span> <span class="pre">5.1;</span>
-<span class="pre">Trident/4.0)</span></tt>.</p>
-<p class="last">Example:
-<tt class="docutils literal"><span class="pre">{'Referer':</span> <span class="pre">'http://www.example.com/',</span> <span class="pre">'Host':</span> <span class="pre">http://www.example.com/'}</span></tt></p>
-</dd>
-</dl>
-</div>
+<p>Example: <tt class="docutils literal"><span class="pre">1</span></tt> for central Europe or <tt class="docutils literal"><span class="pre">-5</span></tt> for eastern U.S.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Crawler.multiple_releases_per_day">
+<tt class="descname">multiple_releases_per_day</tt><a class="headerlink" href="#Crawler.multiple_releases_per_day" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">False</span></tt>. Whether to allow multiple releases per
+day.</p>
+<p>Example: <tt class="xref xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref xref docutils literal"><span class="pre">False</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Crawler.has_rerun_releases">
+<tt class="descname">has_rerun_releases</tt><a class="headerlink" href="#Crawler.has_rerun_releases" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> Default: <tt class="xref xref docutils literal"><span class="pre">False</span></tt>. Whether the comic reruns old
+images as new releases.</p>
+<p>Example: <tt class="xref docutils literal"><span class="pre">True`</span></tt> or <tt class="xref docutils literal"><span class="pre">False`</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Crawler.check_image_mime_type">
+<tt class="descname">check_image_mime_type</tt><a class="headerlink" href="#Crawler.check_image_mime_type" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> Default: <tt class="xref xref docutils literal"><span class="pre">True</span></tt>. Whether to check the mime type of
+the image when downloading.</p>
+<p>Example: <tt class="xref xref docutils literal"><span class="pre">True</span></tt> or <tt class="xref xref docutils literal"><span class="pre">False</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Crawler.headers">
+<tt class="descname">headers</tt><a class="headerlink" href="#Crawler.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Optional.</em> Default: <tt class="xref docutils literal"><span class="pre">None</span></tt>. Any HTTP headers to send with any URI
+request for values.</p>
+<p>Useful if you&#8217;re pulling comics from a site that checks either the
+<tt class="docutils literal"><span class="pre">Referer</span></tt> or <tt class="docutils literal"><span class="pre">User-Agent</span></tt>. If you can view the comic using your
+browser but not when using your loader for identical URLs, try setting
+the <tt class="docutils literal"><span class="pre">Referer</span></tt> to be <tt class="docutils literal"><span class="pre">http://www.example.com/</span></tt> or set the
+<tt class="docutils literal"><span class="pre">User-Agent</span></tt> to be <tt class="docutils literal"><span class="pre">Mozilla/4.0</span> <span class="pre">(compatible;</span> <span class="pre">MSIE</span> <span class="pre">8.0;</span> <span class="pre">Windows</span> <span class="pre">NT</span>
+<span class="pre">5.1;</span> <span class="pre">Trident/4.0)</span></tt>.</p>
+<p>Example: <tt class="docutils literal"><span class="pre">{'Referer':</span> <span class="pre">'http://www.example.com/',</span> <span class="pre">'Host':</span>
+<span class="pre">'http://www.example.com/'}</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="the-crawler-crawl-method">
-<h2>The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method<a class="headerlink" href="#the-crawler-crawl-method" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">crawl()</span></tt> is where the real work is going on. To start with an example,
-let&#8217;s look at <em>XKCD</em>&#8216;s <tt class="docutils literal"><span class="pre">crawl()</span></tt> method:</p>
+<h2>The <tt class="xref docutils literal"><span class="pre">Crawler.crawl()</span></tt> method<a class="headerlink" href="#the-crawler-crawl-method" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="xref docutils literal"><span class="pre">Crawler.crawl()</span></tt> is where the real work is going on. To start with
+an example, let&#8217;s look at <em>XKCD</em>&#8216;s <tt class="xref docutils literal"><span class="pre">Crawler.crawl()</span></tt> method:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
     <span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://www.xkcd.com/rss.xml&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
@@ -174,11 +215,12 @@ let&#8217;s look at <em>XKCD</em>&#8216;s <tt class="docutils literal"><span cla
 </div>
 <div class="section" id="arguments-and-return-values">
 <h3>Arguments and return values<a class="headerlink" href="#arguments-and-return-values" title="Permalink to this headline">¶</a></h3>
-<p>The <tt class="docutils literal"><span class="pre">crawl()</span></tt> method takes a single argument, <tt class="docutils literal"><span class="pre">pub_date</span></tt>, which is a
-<tt class="docutils literal"><span class="pre">datetime.date</span></tt> object for the date the crawler is currently crawling. The
-goal of the method is to return a <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> object containing at least
-the URL of the image for <tt class="docutils literal"><span class="pre">pub_date</span></tt> and optionally a <tt class="docutils literal"><span class="pre">title</span></tt> and <tt class="docutils literal"><span class="pre">text</span></tt>
-accompanying the image. <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt>&#8216;s signature is:</p>
+<p>The <tt class="xref docutils literal"><span class="pre">Crawler.crawl()</span></tt> method takes a single argument, <tt class="docutils literal"><span class="pre">pub_date</span></tt>, which
+is a <tt class="xref docutils literal"><span class="pre">datetime.date</span></tt> object for the date the crawler is currently
+crawling.  The goal of the method is to return a <tt class="xref docutils literal"><span class="pre">CrawlerImage</span></tt> object
+containing at least the URL of the image for <tt class="docutils literal"><span class="pre">pub_date</span></tt> and optionally a
+<tt class="docutils literal"><span class="pre">title</span></tt> and <tt class="docutils literal"><span class="pre">text</span></tt> accompanying the image. <tt class="xref docutils literal"><span class="pre">CrawlerImage</span></tt>&#8216;s
+signature is:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -188,15 +230,13 @@ accompanying the image. <tt class="docutils literal"><span class="pre">CrawlerIm
 <div class="highlight-python"><div class="highlight"><pre><span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
 <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
-<span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
 <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
-<span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For some crawlers, this is all you need. If the image URL is predictable and
 based upon the <tt class="docutils literal"><span class="pre">pub_date</span></tt> in some way, just create the URL with the help
 of <a class="reference external" href="http://docs.python.org/library/datetime.html#strftime-behavior">Python&#8217;s strftime documentation</a>, and return
-it wrapped in a <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt>:</p>
+it wrapped in a <tt class="xref docutils literal"><span class="pre">CrawlerImage</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://www.example.com/comics/</span><span class="si">%s</span><span class="s">.png&#39;</span> <span class="o">%</span> <span class="p">(</span>
         <span class="n">pub_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">),)</span>
@@ -204,22 +244,22 @@ it wrapped in a <tt class="docutils literal"><span class="pre">CrawlerImage</spa
 </pre></div>
 </div>
 <p>Though, for most crawlers, some interaction with RSS or Atom feeds or web pages
-are needed. For this a web parser and a feed parser are provided.</p>
+are needed. For this a <a class="reference internal" href="#web-parser"><em>web parser</em></a> and a <a class="reference internal" href="#feed-parser"><em>feed parser</em></a> are provided.</p>
 </div>
-<div class="section" id="returning-multiple-images-for-a-single-comic-release">
-<h3>Returning multiple images for a single comic release<a class="headerlink" href="#returning-multiple-images-for-a-single-comic-release" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="module-comics.aggregator.lxmlparser">
+<h3>Returning multiple images for a single comic release<a class="headerlink" href="#module-comics.aggregator.lxmlparser" title="Permalink to this headline">¶</a></h3>
 <p>Some comics got releases with multiple images, and thus returning a single
-<tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> will not be enough for you. For situations like these,
-<em>comics</em> lets you return a list of <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> objects from <tt class="docutils literal"><span class="pre">crawl()</span></tt>.
-The list should be ordered in the same way as the comic is meant to be read,
-with the first frame as the first element in the list. If the comic release got
-a <tt class="docutils literal"><span class="pre">title</span></tt>, add it to the first <tt class="docutils literal"><span class="pre">CrawlerImage</span></tt> object, and let the <tt class="docutils literal"><span class="pre">title</span></tt>
-field stay empty on the rest of the list elements. The same applies for the
-<tt class="docutils literal"><span class="pre">text</span></tt> field, unless each image actually got a different <tt class="docutils literal"><span class="pre">title</span></tt> or
-<tt class="docutils literal"><span class="pre">text</span></tt> string.</p>
-<p>The following is an example of a <tt class="docutils literal"><span class="pre">crawl()</span></tt> method which returns multiple
-images. It adds a <tt class="docutils literal"><span class="pre">title</span></tt> to the first list element, and different <tt class="docutils literal"><span class="pre">text</span></tt>
-to all of the elements.</p>
+<tt class="xref docutils literal"><span class="pre">CrawlerImage</span></tt> will not be enough for you. For situations like these,
+<em>comics</em> lets you return a list of <tt class="xref docutils literal"><span class="pre">CrawlerImage</span></tt> objects from
+<tt class="xref docutils literal"><span class="pre">Crawler.crawl()</span></tt>. The list should be ordered in the same way as the
+comic is meant to be read, with the first frame as the first element in the
+list. If the comic release got a <tt class="docutils literal"><span class="pre">title</span></tt>, add it to the first
+<tt class="xref docutils literal"><span class="pre">CrawlerImage</span></tt> object, and let the <tt class="docutils literal"><span class="pre">title</span></tt> field stay empty on the
+rest of the list elements. The same applies for the <tt class="docutils literal"><span class="pre">text</span></tt> field, unless each
+image actually got a different <tt class="docutils literal"><span class="pre">title</span></tt> or <tt class="docutils literal"><span class="pre">text</span></tt> string.</p>
+<p>The following is an example of a <tt class="xref docutils literal"><span class="pre">Crawler.crawl()</span></tt> method which returns
+multiple images. It adds a <tt class="docutils literal"><span class="pre">title</span></tt> to the first list element, and different
+<tt class="docutils literal"><span class="pre">text</span></tt> to all of the elements.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
     <span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://feeds.feedburner.com/Pidjin&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
@@ -234,12 +274,14 @@ to all of the elements.</p>
         <span class="k">return</span> <span class="n">result</span>
 </pre></div>
 </div>
+<span class="target" id="web-parser"></span></div>
 </div>
-</div>
-<div class="section" id="the-web-parser">
-<h2>The web parser<a class="headerlink" href="#the-web-parser" title="Permalink to this headline">¶</a></h2>
-<p>The web parser, internally known as <tt class="docutils literal"><span class="pre">LxmlParser</span></tt>, uses CSS selectors to
-extract content from HTML:</p>
+<div class="section" id="lxmlparser-parsing-web-pages-and-html">
+<h2><a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a> &#8211; Parsing web pages and HTML<a class="headerlink" href="#lxmlparser-parsing-web-pages-and-html" title="Permalink to this headline">¶</a></h2>
+<p>The web parser, internally known as <a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a>, uses CSS selectors to
+extract content from HTML. For a primer on CSS selectors, see
+<a class="reference internal" href="#css-selectors"><em>Matching HTML elements using CSS selectors</em></a>.</p>
+<p>The web parser is accessed through the <tt class="xref docutils literal"><span class="pre">Crawler.parse_page()</span></tt> method:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pub_date</span><span class="p">):</span>
     <span class="n">page_url</span> <span class="o">=</span> <span class="s">&#39;http://ars.userfriendly.org/cartoons/?id=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
         <span class="n">pub_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%Y%m</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">),)</span>
@@ -251,94 +293,67 @@ extract content from HTML:</p>
 <p>This is a common pattern for crawlers. Another common patterns is to use a feed
 to find the web page URL for the given date, then parse that web page to find
 the image URL.</p>
-<p>For a primer on CSS selectors, see <a class="reference internal" href="#css-selectors"><em>Matching HTML elements using CSS selectors</em></a>.</p>
-<div class="section" id="available-methods">
-<h3>Available methods<a class="headerlink" href="#available-methods" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="lxmlparser-api">
+<h3><a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a> API<a class="headerlink" href="#lxmlparser-api" title="Permalink to this headline">¶</a></h3>
 <p>The available methods only require a CSS selector, <tt class="docutils literal"><span class="pre">selector</span></tt>, to match tags.
 In the event that the selector doesn&#8217;t match any elements, <tt class="docutils literal"><span class="pre">default</span></tt> will be
 returned.</p>
 <p>If the <tt class="docutils literal"><span class="pre">selector</span></tt> matches multiple elements, one of two things will happen:</p>
-<ol class="arabic simple">
-<li>If <tt class="docutils literal"><span class="pre">allow_multiple</span></tt> is <tt class="xref docutils literal"><span class="pre">False</span></tt>, a <tt class="docutils literal"><span class="pre">MultipleElementsReturned</span></tt> exception
-is raised.</li>
-<li>If <tt class="docutils literal"><span class="pre">allow_multiple</span></tt> is <tt class="xref docutils literal"><span class="pre">True</span></tt>, a list of zero or more elements is
+<ul class="simple">
+<li>If <tt class="docutils literal"><span class="pre">allow_multiple</span></tt> is <tt class="xref xref docutils literal"><span class="pre">False</span></tt>, a <tt class="xref docutils literal"><span class="pre">MultipleElementsReturned</span></tt>
+exception is raised.</li>
+<li>If <tt class="docutils literal"><span class="pre">allow_multiple</span></tt> is <tt class="xref xref docutils literal"><span class="pre">True</span></tt>, a list of zero or more elements is
 returned with all of the elements matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</li>
-</ol>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">text(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
-<dd>Returns the text contained by the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">src(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
-<dd><p class="first">Returns the <tt class="docutils literal"><span class="pre">src</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</p>
-<p class="last">The web parser automatically expands relative URLs in the source, like
+</ul>
+<dl class="class">
+<dt id="comics.aggregator.lxmlparser.LxmlParser">
+<em class="property">
+class </em><tt class="descclassname">comics.aggregator.lxmlparser.</tt><tt class="descname">LxmlParser</tt><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="comics.aggregator.lxmlparser.LxmlParser.text">
+<tt class="descname">text</tt><big>(</big><em>selector</em><span class="optional">[</span>, <em>default=None</em>, <em>allow_multiple=False</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser.text" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the text contained by the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.lxmlparser.LxmlParser.src">
+<tt class="descname">src</tt><big>(</big><em>selector</em><span class="optional">[</span>, <em>default=None</em>, <em>allow_multiple=False</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser.src" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <tt class="docutils literal"><span class="pre">src</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</p>
+<p>The web parser automatically expands relative URLs in the source, like
 <tt class="docutils literal"><span class="pre">/comics/2008-04-13.png</span></tt> to a full URL like
 <tt class="docutils literal"><span class="pre">http://www.example.com/2008-04-13.png</span></tt>, so you do not need to think
 about that.</p>
-</dd>
-<dt><tt class="docutils literal"><span class="pre">alt(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
-<dd>Returns the <tt class="docutils literal"><span class="pre">alt</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">title(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
-<dd>Returns the <tt class="docutils literal"><span class="pre">title</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">href(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
-<dd>Returns the <tt class="docutils literal"><span class="pre">href</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">value(selector,</span> <span class="pre">default=None,</span> <span class="pre">allow_multiple=False)</span></tt></dt>
-<dd>Returns the <tt class="docutils literal"><span class="pre">value</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">remove(selector)</span></tt></dt>
-<dd>Remove the elements matching <tt class="docutils literal"><span class="pre">selector</span></tt> from the parsed document.</dd>
-</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.lxmlparser.LxmlParser.alt">
+<tt class="descname">alt</tt><big>(</big><em>selector</em><span class="optional">[</span>, <em>default=None</em>, <em>allow_multiple=False</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser.alt" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the <tt class="docutils literal"><span class="pre">alt</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.lxmlparser.LxmlParser.title">
+<tt class="descname">title</tt><big>(</big><em>selector</em><span class="optional">[</span>, <em>default=None</em>, <em>allow_multiple=False</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser.title" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the <tt class="docutils literal"><span class="pre">title</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.lxmlparser.LxmlParser.href">
+<tt class="descname">href</tt><big>(</big><em>selector</em><span class="optional">[</span>, <em>default=None</em>, <em>allow_multiple=False</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser.href" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the <tt class="docutils literal"><span class="pre">href</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.lxmlparser.LxmlParser.value">
+<tt class="descname">value</tt><big>(</big><em>selector</em><span class="optional">[</span>, <em>default=None</em>, <em>allow_multiple=False</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser.value" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the <tt class="docutils literal"><span class="pre">value</span></tt> attribute of the element matching <tt class="docutils literal"><span class="pre">selector</span></tt>.</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.lxmlparser.LxmlParser.remove">
+<tt class="descname">remove</tt><big>(</big><em>selector</em><big>)</big><a class="headerlink" href="#comics.aggregator.lxmlparser.LxmlParser.remove" title="Permalink to this definition">¶</a></dt>
+<dd>Remove the elements matching <tt class="docutils literal"><span class="pre">selector</span></tt> from the parsed document.</dd></dl>
+
+</dd></dl>
+
 </div>
-</div>
-<div class="section" id="the-feed-parser">
-<h2>The feed parser<a class="headerlink" href="#the-feed-parser" title="Permalink to this headline">¶</a></h2>
-<p>The feed parser is initialized with a feed URL, just like the web parser is
-initialized with a web page URL:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://www.xkcd.com/rss.xml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="feed-methods">
-<h3>Feed methods<a class="headerlink" href="#feed-methods" title="Permalink to this headline">¶</a></h3>
-<p>The <tt class="docutils literal"><span class="pre">feed</span></tt> object provides two methods which both returns feed elements:</p>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">for_date(date)</span></tt></dt>
-<dd>Returns all feed elements published at <tt class="docutils literal"><span class="pre">date</span></tt>.</dd>
-<dt><tt class="docutils literal"><span class="pre">all()</span></tt></dt>
-<dd>Returns all feed elements.</dd>
-</dl>
-<p>Typically, a crawler uses <tt class="docutils literal"><span class="pre">for_date(date)</span></tt> and loops over all entries it
-returns to find the image URL:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
-    <span class="c"># parsing comes here</span>
-    <span class="k">return</span> <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="entry-fields-with-lxmlparser">
-<h3>Entry fields with <tt class="docutils literal"><span class="pre">LxmlParser</span></tt><a class="headerlink" href="#entry-fields-with-lxmlparser" title="Permalink to this headline">¶</a></h3>
-<p>The <em>comics</em> feed parser is really a combination of <a class="reference external" href="http://www.feedparser.org/">feedparser</a> and <tt class="docutils literal"><span class="pre">LxmlParser</span></tt>. It can do anything
-<em>feedparser</em> can do, and in addition you can use the <tt class="docutils literal"><span class="pre">LxmlParser</span></tt> methods on
-feed fields which contains HTML:</p>
-<dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">summary</span></tt></dt>
-<dd>This is the most frequently used entry field which supports HTML parsing
-with the <tt class="docutils literal"><span class="pre">LxmlParser</span></tt> methods.</dd>
-<dt><tt class="docutils literal"><span class="pre">content0</span></tt></dt>
-<dd>This is the same as <em>feedparser</em>&#8216;s <tt class="docutils literal"><span class="pre">content[0].value</span></tt> field, but with
-<tt class="docutils literal"><span class="pre">LxmlParser</span></tt> methods available. For some crawlers, this is where the
-interesting stuff is found.</dd>
-</dl>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">)</span>
-<span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">alt</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>If you need to parse HTML in any other fields than the above two, you can apply
-the <tt class="docutils literal"><span class="pre">html(string)</span></tt> method on the field, like it is applied on a feed entry&#8217;s
-title field here:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s">&#39;h1&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="matching-html-elements-using-css-selectors">
-<span id="css-selectors"></span><h2>Matching HTML elements using CSS selectors<a class="headerlink" href="#matching-html-elements-using-css-selectors" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-comics.aggregator.feedparser">
+<span id="css-selectors"></span><h3>Matching HTML elements using CSS selectors<a class="headerlink" href="#module-comics.aggregator.feedparser" title="Permalink to this headline">¶</a></h3>
 <p>Both web page and feed parsing uses CSS selectors to extract the interesting
 strings from HTML. CSS selectors are those normally simple strings you use in
 CSS style sheets to select what elements of your web page the CSS declarations
@@ -358,7 +373,7 @@ class <tt class="docutils literal"><span class="pre">foo</span></tt> red, and al
 </pre></div>
 </div>
 <p>In CSS3, the power of CSS selectors have been greatly increased by the addition
-of matching by the content of elements&#8217; arguments. To match all <tt class="docutils literal"><span class="pre">img</span></tt>
+of matching by the content of elements&#8217; attributes. To match all <tt class="docutils literal"><span class="pre">img</span></tt>
 elements with a <tt class="docutils literal"><span class="pre">src</span></tt> attribute <em>starting with</em> <tt class="docutils literal"><span class="pre">http://www.example.com/</span></tt>
 simply write:</p>
 <div class="highlight-python"><pre>img[src^="http://www.example.com/"]</pre>
@@ -374,6 +389,96 @@ simply write:</p>
 </div>
 <p>For further details on CSS selectors in general, please refer to
 <a class="reference external" href="http://css.maxdesign.com.au/selectutorial/">http://css.maxdesign.com.au/selectutorial/</a>.</p>
+<span class="target" id="feed-parser"></span></div>
+</div>
+<div class="section" id="feedparser-parsing-feeds">
+<h2><a title="comics.aggregator.feedparser.FeedParser" class="reference internal" href="#comics.aggregator.feedparser.FeedParser"><tt class="xref docutils literal"><span class="pre">FeedParser</span></tt></a> &#8211; Parsing feeds<a class="headerlink" href="#feedparser-parsing-feeds" title="Permalink to this headline">¶</a></h2>
+<p>The feed parser is initialized with a feed URL passed to
+<tt class="xref docutils literal"><span class="pre">Crawler.parse_feed()</span></tt>, just like the web parser is initialized with a web
+page URL:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">feed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_feed</span><span class="p">(</span><span class="s">&#39;http://www.xkcd.com/rss.xml&#39;</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<div class="section" id="feedparser-api">
+<h3><a title="comics.aggregator.feedparser.FeedParser" class="reference internal" href="#comics.aggregator.feedparser.FeedParser"><tt class="xref docutils literal"><span class="pre">FeedParser</span></tt></a> API<a class="headerlink" href="#feedparser-api" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">feed</span></tt> object provides two methods which both returns feed elements:
+<a title="comics.aggregator.feedparser.FeedParser.for_date" class="reference internal" href="#comics.aggregator.feedparser.FeedParser.for_date"><tt class="xref docutils literal"><span class="pre">FeedParser.for_date()</span></tt></a> and <a title="comics.aggregator.feedparser.FeedParser.all" class="reference internal" href="#comics.aggregator.feedparser.FeedParser.all"><tt class="xref docutils literal"><span class="pre">FeedParser.all()</span></tt></a>. Typically, a crawler
+uses <a title="comics.aggregator.feedparser.FeedParser.for_date" class="reference internal" href="#comics.aggregator.feedparser.FeedParser.for_date"><tt class="xref docutils literal"><span class="pre">FeedParser.for_date()</span></tt></a> and loops over all entries it returns to find
+the image URL:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">feed</span><span class="o">.</span><span class="n">for_date</span><span class="p">(</span><span class="n">pub_date</span><span class="p">):</span>
+    <span class="c"># parsing comes here</span>
+    <span class="k">return</span> <span class="n">CrawlerImage</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="comics.aggregator.feedparser.FeedParser">
+<em class="property">
+class </em><tt class="descclassname">comics.aggregator.feedparser.</tt><tt class="descname">FeedParser</tt><a class="headerlink" href="#comics.aggregator.feedparser.FeedParser" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="comics.aggregator.feedparser.FeedParser.for_date">
+<tt class="descname">for_date</tt><big>(</big><em>date</em><big>)</big><a class="headerlink" href="#comics.aggregator.feedparser.FeedParser.for_date" title="Permalink to this definition">¶</a></dt>
+<dd>Returns all feed elements published at <tt class="docutils literal"><span class="pre">date</span></tt>.</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.feedparser.FeedParser.all">
+<tt class="descname">all</tt><big>(</big><big>)</big><a class="headerlink" href="#comics.aggregator.feedparser.FeedParser.all" title="Permalink to this definition">¶</a></dt>
+<dd>Returns all feed elements.</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="feed-entry-api">
+<h3>Feed <a title="comics.aggregator.feedparser.Entry" class="reference internal" href="#comics.aggregator.feedparser.Entry"><tt class="xref docutils literal"><span class="pre">Entry</span></tt></a> API<a class="headerlink" href="#feed-entry-api" title="Permalink to this headline">¶</a></h3>
+<p>The <em>comics</em> feed parser is really a combination of the popular <a class="reference external" href="http://www.feedparser.org/">feedparser</a> library and <a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a>. It can do anything <em>feedparser</em> can
+do, and in addition you can use the <a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a> methods on feed fields which
+contains HTML, like <a title="comics.aggregator.feedparser.Entry.summary" class="reference internal" href="#comics.aggregator.feedparser.Entry.summary"><tt class="xref docutils literal"><span class="pre">Entry.summary</span></tt></a> and <a title="comics.aggregator.feedparser.Entry.content0" class="reference internal" href="#comics.aggregator.feedparser.Entry.content0"><tt class="xref docutils literal"><span class="pre">Entry.content0</span></tt></a>.</p>
+<dl class="class">
+<dt id="comics.aggregator.feedparser.Entry">
+<em class="property">
+class </em><tt class="descclassname">comics.aggregator.feedparser.</tt><tt class="descname">Entry</tt><a class="headerlink" href="#comics.aggregator.feedparser.Entry" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="comics.aggregator.feedparser.Entry.summary">
+<tt class="descname">summary</tt><a class="headerlink" href="#comics.aggregator.feedparser.Entry.summary" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the most frequently used entry field which supports HTML
+parsing with the <a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a> methods.</p>
+<p>Example usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">url</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">src</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">alt</span><span class="p">(</span><span class="s">&#39;img&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="comics.aggregator.feedparser.Entry.content0">
+<tt class="descname">content0</tt><a class="headerlink" href="#comics.aggregator.feedparser.Entry.content0" title="Permalink to this definition">¶</a></dt>
+<dd>This is the same as <em>feedparser</em>&#8216;s <tt class="docutils literal"><span class="pre">content[0].value</span></tt> field, but with
+<a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a> methods
+available. For some crawlers, this is where the interesting stuff is
+found.</dd></dl>
+
+<dl class="method">
+<dt id="comics.aggregator.feedparser.Entry.html">
+<tt class="descname">html</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#comics.aggregator.feedparser.Entry.html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap <tt class="docutils literal"><span class="pre">string</span></tt> in a <a title="comics.aggregator.lxmlparser.LxmlParser" class="reference internal" href="#comics.aggregator.lxmlparser.LxmlParser"><tt class="xref docutils literal"><span class="pre">LxmlParser</span></tt></a>.</p>
+<p>If you need to parse HTML in any other fields than <a title="comics.aggregator.feedparser.Entry.summary" class="reference internal" href="#comics.aggregator.feedparser.Entry.summary"><tt class="xref docutils literal"><span class="pre">summary</span></tt></a> and
+<a title="comics.aggregator.feedparser.Entry.content0" class="reference internal" href="#comics.aggregator.feedparser.Entry.content0"><tt class="xref docutils literal"><span class="pre">content0</span></tt></a>, you can apply the <tt class="docutils literal"><span class="pre">html(string)</span></tt> method on the
+field, like it is applied on a feed entry&#8217;s title field here:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">title</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s">&#39;h1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="comics.aggregator.feedparser.Entry.tags">
+<tt class="descname">tags</tt><a class="headerlink" href="#comics.aggregator.feedparser.Entry.tags" title="Permalink to this definition">¶</a></dt>
+<dd>List of tags associated with the entry.</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 <div class="section" id="testing-your-new-crawler">
 <h2>Testing your new crawler<a class="headerlink" href="#testing-your-new-crawler" title="Permalink to this headline">¶</a></h2>
@@ -384,19 +489,19 @@ URLs <em>comics</em> will serve the comic at. For this example, we call the craw
 file <tt class="docutils literal"><span class="pre">foo.py</span></tt>. The file must be placed in the <tt class="docutils literal"><span class="pre">comics/comics/comics/</span></tt>
 directory, and will be available in Python as <tt class="docutils literal"><span class="pre">comics.comics.foo</span></tt>.</p>
 <div class="section" id="loading-meta-for-your-new-comic">
-<h3>Loading <tt class="docutils literal"><span class="pre">Meta</span></tt> for your new comic<a class="headerlink" href="#loading-meta-for-your-new-comic" title="Permalink to this headline">¶</a></h3>
+<h3>Loading <a title="Meta" class="reference internal" href="#Meta"><tt class="xref docutils literal"><span class="pre">Meta</span></tt></a> for your new comic<a class="headerlink" href="#loading-meta-for-your-new-comic" title="Permalink to this headline">¶</a></h3>
 <p>For <em>comics</em> to know about your new crawler, you need to load the comic meta
 data into <em>comics</em>&#8216;s database. To do so, we run the <tt class="docutils literal"><span class="pre">loadmeta</span></tt> command:</p>
 <div class="highlight-python"><pre>python manage.py loadmeta -c foo</pre>
 </div>
-<p>If you do any changes to the <tt class="docutils literal"><span class="pre">Meta</span></tt> class of any crawler, you must rerun
+<p>If you do any changes to the <a title="Meta" class="reference internal" href="#Meta"><tt class="xref docutils literal"><span class="pre">Meta</span></tt></a> class of any crawler, you must rerun
 <tt class="docutils literal"><span class="pre">loadmeta</span></tt> to update the database representation of the comic.</p>
 </div>
 <div class="section" id="running-the-crawler">
 <h3>Running the crawler<a class="headerlink" href="#running-the-crawler" title="Permalink to this headline">¶</a></h3>
-<p>When <tt class="docutils literal"><span class="pre">loadmeta</span></tt> has created a <tt class="docutils literal"><span class="pre">Comic</span></tt> instance for the new crawler, you may
-use your new crawler to fetch the comic&#8217;s release for the current date by
-running:</p>
+<p>When <tt class="docutils literal"><span class="pre">loadmeta</span></tt> has created a <tt class="xref docutils literal"><span class="pre">comics.core.models.Comic</span></tt> instance for
+the new crawler, you may use your new crawler to fetch the comic&#8217;s release for
+the current date by running:</p>
 <div class="highlight-python"><pre>python manage.py getcomics -c foo</pre>
 </div>
 <p>If you want to get comics releases for more than the current day, you may
@@ -437,26 +542,22 @@ and send me a <em>pull request</em> through GitHub.</p>
 <li><a class="reference external" href="">Creating new crawlers</a><ul>
 <li><a class="reference external" href="#a-crawler-example">A crawler example</a></li>
 <li><a class="reference external" href="#the-meta-class-fields">The <tt class="docutils literal"><span class="pre">Meta</span></tt> class fields</a></li>
-<li><a class="reference external" href="#the-crawler-class-fields">The <tt class="docutils literal"><span class="pre">Crawler</span></tt> class fields</a><ul>
-<li><a class="reference external" href="#fields-used-for-crawling">Fields used for crawling</a></li>
-<li><a class="reference external" href="#fields-used-for-downloading">Fields used for downloading</a></li>
-</ul>
-</li>
+<li><a class="reference external" href="#the-crawler-class-fields">The <tt class="docutils literal"><span class="pre">Crawler</span></tt> class fields</a></li>
 <li><a class="reference external" href="#the-crawler-crawl-method">The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method</a><ul>
 <li><a class="reference external" href="#arguments-and-return-values">Arguments and return values</a></li>
-<li><a class="reference external" href="#returning-multiple-images-for-a-single-comic-release">Returning multiple images for a single comic release</a></li>
+<li><a class="reference external" href="#module-comics.aggregator.lxmlparser">Returning multiple images for a single comic release</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#the-web-parser">The web parser</a><ul>
-<li><a class="reference external" href="#available-methods">Available methods</a></li>
+<li><a class="reference external" href="#lxmlparser-parsing-web-pages-and-html"><tt class="docutils literal"><span class="pre">LxmlParser</span></tt> &#8211; Parsing web pages and HTML</a><ul>
+<li><a class="reference external" href="#lxmlparser-api"><tt class="docutils literal"><span class="pre">LxmlParser</span></tt> API</a></li>
+<li><a class="reference external" href="#module-comics.aggregator.feedparser">Matching HTML elements using CSS selectors</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#the-feed-parser">The feed parser</a><ul>
-<li><a class="reference external" href="#feed-methods">Feed methods</a></li>
-<li><a class="reference external" href="#entry-fields-with-lxmlparser">Entry fields with <tt class="docutils literal"><span class="pre">LxmlParser</span></tt></a></li>
+<li><a class="reference external" href="#feedparser-parsing-feeds"><tt class="docutils literal"><span class="pre">FeedParser</span></tt> &#8211; Parsing feeds</a><ul>
+<li><a class="reference external" href="#feedparser-api"><tt class="docutils literal"><span class="pre">FeedParser</span></tt> API</a></li>
+<li><a class="reference external" href="#feed-entry-api">Feed <tt class="docutils literal"><span class="pre">Entry</span></tt> API</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#matching-html-elements-using-css-selectors">Matching HTML elements using CSS selectors</a></li>
 <li><a class="reference external" href="#testing-your-new-crawler">Testing your new crawler</a><ul>
 <li><a class="reference external" href="#loading-meta-for-your-new-comic">Loading <tt class="docutils literal"><span class="pre">Meta</span></tt> for your new comic</a></li>
 <li><a class="reference external" href="#running-the-crawler">Running the crawler</a></li>
@@ -496,6 +597,9 @@ and send me a <em>pull request</em> through GitHub.</p>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex/" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="../modindex/" title="Global Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="../deployment/" title="Deployment"
              >next</a> |</li>

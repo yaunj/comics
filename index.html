@@ -30,6 +30,9 @@
           <a href="genindex/" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="modindex/" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
           <a href="changes/" title="Changes"
              accesskey="N">next</a> |</li>
         <li><a href="">comics v1.0.1.dev documentation</a> &raquo;</li> 
@@ -83,7 +86,7 @@ Public License version 3.</p>
 <li class="toctree-l3"><a class="reference external" href="installation/#seed-database">Seed database</a></li>
 <li class="toctree-l3"><a class="reference external" href="installation/#get-some-comics">Get some comics</a></li>
 <li class="toctree-l3"><a class="reference external" href="installation/#development-web-server">Development web server</a></li>
-<li class="toctree-l3"><a class="reference external" href="installation/#final-notes">Final notes</a></li>
+<li class="toctree-l3"><a class="reference external" href="installation/#more-options">More options</a></li>
 </ul>
 </li>
 </ul>
@@ -91,26 +94,22 @@ Public License version 3.</p>
 <li class="toctree-l1"><a class="reference external" href="crawlers/">Creating new crawlers</a><ul>
 <li class="toctree-l2"><a class="reference external" href="crawlers/#a-crawler-example">A crawler example</a></li>
 <li class="toctree-l2"><a class="reference external" href="crawlers/#the-meta-class-fields">The <tt class="docutils literal"><span class="pre">Meta</span></tt> class fields</a></li>
-<li class="toctree-l2"><a class="reference external" href="crawlers/#the-crawler-class-fields">The <tt class="docutils literal"><span class="pre">Crawler</span></tt> class fields</a><ul>
-<li class="toctree-l3"><a class="reference external" href="crawlers/#fields-used-for-crawling">Fields used for crawling</a></li>
-<li class="toctree-l3"><a class="reference external" href="crawlers/#fields-used-for-downloading">Fields used for downloading</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference external" href="crawlers/#the-crawler-class-fields">The <tt class="docutils literal"><span class="pre">Crawler</span></tt> class fields</a></li>
 <li class="toctree-l2"><a class="reference external" href="crawlers/#the-crawler-crawl-method">The <tt class="docutils literal"><span class="pre">Crawler.crawl()</span></tt> method</a><ul>
 <li class="toctree-l3"><a class="reference external" href="crawlers/#arguments-and-return-values">Arguments and return values</a></li>
-<li class="toctree-l3"><a class="reference external" href="crawlers/#returning-multiple-images-for-a-single-comic-release">Returning multiple images for a single comic release</a></li>
+<li class="toctree-l3"><a class="reference external" href="crawlers/#module-comics.aggregator.lxmlparser">Returning multiple images for a single comic release</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference external" href="crawlers/#the-web-parser">The web parser</a><ul>
-<li class="toctree-l3"><a class="reference external" href="crawlers/#available-methods">Available methods</a></li>
+<li class="toctree-l2"><a class="reference external" href="crawlers/#lxmlparser-parsing-web-pages-and-html"><tt class="docutils literal"><span class="pre">LxmlParser</span></tt> &#8211; Parsing web pages and HTML</a><ul>
+<li class="toctree-l3"><a class="reference external" href="crawlers/#lxmlparser-api"><tt class="docutils literal"><span class="pre">LxmlParser</span></tt> API</a></li>
+<li class="toctree-l3"><a class="reference external" href="crawlers/#module-comics.aggregator.feedparser">Matching HTML elements using CSS selectors</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference external" href="crawlers/#the-feed-parser">The feed parser</a><ul>
-<li class="toctree-l3"><a class="reference external" href="crawlers/#feed-methods">Feed methods</a></li>
-<li class="toctree-l3"><a class="reference external" href="crawlers/#entry-fields-with-lxmlparser">Entry fields with <tt class="docutils literal"><span class="pre">LxmlParser</span></tt></a></li>
+<li class="toctree-l2"><a class="reference external" href="crawlers/#feedparser-parsing-feeds"><tt class="docutils literal"><span class="pre">FeedParser</span></tt> &#8211; Parsing feeds</a><ul>
+<li class="toctree-l3"><a class="reference external" href="crawlers/#feedparser-api"><tt class="docutils literal"><span class="pre">FeedParser</span></tt> API</a></li>
+<li class="toctree-l3"><a class="reference external" href="crawlers/#feed-entry-api">Feed <tt class="docutils literal"><span class="pre">Entry</span></tt> API</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference external" href="crawlers/#matching-html-elements-using-css-selectors">Matching HTML elements using CSS selectors</a></li>
 <li class="toctree-l2"><a class="reference external" href="crawlers/#testing-your-new-crawler">Testing your new crawler</a><ul>
 <li class="toctree-l3"><a class="reference external" href="crawlers/#loading-meta-for-your-new-comic">Loading <tt class="docutils literal"><span class="pre">Meta</span></tt> for your new comic</a></li>
 <li class="toctree-l3"><a class="reference external" href="crawlers/#running-the-crawler">Running the crawler</a></li>
@@ -150,6 +149,7 @@ Public License version 3.</p>
 <h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference external" href="genindex/"><em>Index</em></a></li>
+<li><a class="reference external" href="modindex/"><em>Module Index</em></a></li>
 <li><a class="reference external" href="search/"><em>Search Page</em></a></li>
 </ul>
 </div>
@@ -198,6 +198,9 @@ Public License version 3.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex/" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="modindex/" title="Global Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="changes/" title="Changes"
              >next</a> |</li>

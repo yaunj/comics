@@ -31,6 +31,9 @@
           <a href="../genindex/" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="../modindex/" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
           <a href="../specs/001-multi-release/" title="Spec-001: Multiple releases of a single comic strip"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -124,10 +127,10 @@ branch not a single commit.</li>
 </div>
 <div class="section" id="data-model">
 <h2>Data model<a class="headerlink" href="#data-model" title="Permalink to this headline">¶</a></h2>
-<p><em>comics</em>&#8216; data model is very simple. The <tt class="docutils literal"><span class="pre">core</span></tt> app consists of three models;
-<tt class="docutils literal"><span class="pre">Comic</span></tt>, <tt class="docutils literal"><span class="pre">Release</span></tt>, and <tt class="docutils literal"><span class="pre">Strip</span></tt>. The <tt class="docutils literal"><span class="pre">sets</span></tt> app adds an additional
-model named <tt class="docutils literal"><span class="pre">Set</span></tt>. Changes to the data model are managed using <a class="reference external" href="http://south.aeracode.org/">South</a> database migrations. If you need to change
-the models, please provide the needed migrations.</p>
+<p><em>comics</em>&#8216; data model is very simple. The <tt class="xref docutils literal"><span class="pre">comics.core</span></tt> app consists of
+three models; <tt class="xref docutils literal"><span class="pre">Comic</span></tt>, <tt class="xref docutils literal"><span class="pre">Release</span></tt>, and <tt class="xref docutils literal"><span class="pre">Strip</span></tt>.
+The <tt class="xref docutils literal"><span class="pre">comics.sets</span></tt> app adds an additional model named <tt class="xref docutils literal"><span class="pre">Set</span></tt>. Changes to the data model are managed using <a class="reference external" href="http://south.aeracode.org/">South</a> database migrations. If you need to change the
+models, please provide the needed migrations.</p>
 <img alt="../images/data_model.png" src="../images/data_model.png" />
 <p>The above data model diagram was generated using the Django app
 <a class="reference external" href="http://code.google.com/p/django-command-extensions/">django_extensions</a> and
@@ -178,9 +181,9 @@ documentation as a <em>change specification</em>.</p>
 <dt><tt class="docutils literal"><span class="pre">bin/smush</span></tt></dt>
 <dd>Process images with <tt class="docutils literal"><span class="pre">bin/smush</span></tt> to reduce their size 10-20% (without
 affecting their quality) and thus reducing page load time.</dd>
-<dt><tt class="docutils literal"><span class="pre">comics.aggregator.command</span></tt></dt>
+<dt><tt class="xref docutils literal"><span class="pre">comics.aggregator.command</span></tt></dt>
 <dd>Use comic week schedule to crawl less often on non-schedule days.</dd>
-<dt><tt class="docutils literal"><span class="pre">comics.core.utils.navigation</span></tt></dt>
+<dt><tt class="xref docutils literal"><span class="pre">comics.core.utils.navigation</span></tt></dt>
 <dd>Unit test and refactor.</dd>
 </dl>
 </div>
@@ -239,6 +242,9 @@ affecting their quality) and thus reducing page load time.</dd>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex/" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="../modindex/" title="Global Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="../specs/001-multi-release/" title="Spec-001: Multiple releases of a single comic strip"
              >next</a> |</li>
