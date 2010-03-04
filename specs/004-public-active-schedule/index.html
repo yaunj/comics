@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Spec-002: Crawler meta data in Python code &mdash; comics v1.0.2.dev documentation</title>
+    <title>Spec-004: Add new database fields for public, active and schedule &mdash; comics v1.0.2.dev documentation</title>
     <link rel="stylesheet" href="../../static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -21,8 +21,7 @@
     <script type="text/javascript" src="../../static/doctools.js"></script>
     <link rel="top" title="comics v1.0.2.dev documentation" href="../../" />
     <link rel="up" title="Development" href="../../development/" />
-    <link rel="next" title="Spec-003: Multiple images per comic release" href="../003-multi-image/" />
-    <link rel="prev" title="Spec-001: Multiple releases of a single comic strip" href="../001-multi-release/" /> 
+    <link rel="prev" title="Spec-003: Multiple images per comic release" href="../003-multi-image/" /> 
   </head>
   <body>
     <div class="related">
@@ -36,9 +35,6 @@
              accesskey="M">modules</a> |</li>
         <li class="right" >
           <a href="../003-multi-image/" title="Spec-003: Multiple images per comic release"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../001-multi-release/" title="Spec-001: Multiple releases of a single comic strip"
              accesskey="P">previous</a> |</li>
         <li><a href="../../">comics v1.0.2.dev documentation</a> &raquo;</li>
           <li><a href="../../development/" accesskey="U">Development</a> &raquo;</li> 
@@ -50,35 +46,46 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="spec-002-crawler-meta-data-in-python-code">
-<h1>Spec-002: Crawler meta data in Python code<a class="headerlink" href="#spec-002-crawler-meta-data-in-python-code" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="spec-004-add-new-database-fields-for-public-active-and-schedule">
+<span id="spec-public-active-schedule"></span><h1>Spec-004: Add new database fields for public, active and schedule<a class="headerlink" href="#spec-004-add-new-database-fields-for-public-active-and-schedule" title="Permalink to this headline">¶</a></h1>
 <dl class="docutils">
 <dt><em>Spec created:</em></dt>
-<dd>2009-06-13</dd>
+<dd>2010-03-03</dd>
 <dt><em>Spec implemented:</em></dt>
-<dd>2009-07-18</dd>
+<dd>N/A</dd>
 </dl>
 <div class="section" id="goals">
 <h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Remove the need for patching common/fixtures/initial_data.json when adding
-new comic crawlers.</li>
-<li>Everything needed for adding a new comic in one file.</li>
-<li>Automatic creation of a new Comic instance when adding a crawler.</li>
-<li>No adding of Comic instances before the matching crawler is in place.</li>
+<li>Add <tt class="docutils literal"><span class="pre">COMCIS_PUBLIC</span></tt> setting to indicate if the installations is public
+or private. Default value should be should be <tt class="xref docutils literal"><span class="pre">True</span></tt>. The proposed
+<tt class="docutils literal"><span class="pre">public</span></tt> field handling needs to respect this setting.</li>
+<li>Add <tt class="docutils literal"><span class="pre">public</span></tt> field that indicates if comic can be showed on public
+installations. All comics should have default value <tt class="xref docutils literal"><span class="pre">True</span></tt> and info
+loaded through <tt class="docutils literal"><span class="pre">loadmeta</span></tt>. A design decision needs to be made with
+respect to if public installs should crawl &#8220;private&#8221; comics.</li>
+<li>Add <tt class="docutils literal"><span class="pre">active</span></tt> field that can be used to indicate that a comic is no longer
+crawled. All comics should have default value <tt class="xref docutils literal"><span class="pre">True</span></tt> and info loaded
+through <tt class="docutils literal"><span class="pre">loadmeta</span></tt>. The status page should ignore inactive comics.</li>
+<li>Add <tt class="docutils literal"><span class="pre">schedule</span></tt> field to track comics schedule. This information will thus
+be moved from the crawler to the comic instance in the DB and loaded with
+<tt class="docutils literal"><span class="pre">loadmeta</span></tt>. Comics without a schedule should have <tt class="xref docutils literal"><span class="pre">None</span></tt> as schedule.
+This change has been proposed in response to better use of the new status
+page.</li>
 </ul>
 </div>
 <div class="section" id="implementation-plan">
 <h2>Implementation plan<a class="headerlink" href="#implementation-plan" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li>Add a ComicMeta class in each crawler module containing the information
-previously added as fixtures.</li>
-<li>Add a management command &#8216;loadcomicmeta&#8217; which reads the ComicMeta classes
-and adds new Comic instances to the database.
-- Let the user specify which crawlers to add with &#8216;-c comicslug&#8217;.</li>
-<li>Add ComicMeta to all existing crawlers.</li>
-<li>Remove common/fixtures/initial_data.json.</li>
-<li>As a bonus, add support for merging ComicMeta changes into the database.</li>
+<li>Add new setting.</li>
+<li>Add new fields using south.</li>
+<li>Update base Meta object.</li>
+<li>Move schedule from crawler to meta.</li>
+<li>Update status page to use &#8220;new&#8221; schedule.</li>
+<li>Remove old <tt class="docutils literal"><span class="pre">get_comic_schedule</span></tt> from utils.</li>
+<li>Update crawler and/or view code to respect public flag.</li>
+<li>Update crawler and/or view code to respect active flag.</li>
+<li>Update docs if required.</li>
 </ol>
 </div>
 </div>
@@ -91,7 +98,7 @@ and adds new Comic instances to the database.
         <div class="sphinxsidebarwrapper">
             <h3><a href="../../">Table Of Contents</a></h3>
             <ul>
-<li><a class="reference external" href="">Spec-002: Crawler meta data in Python code</a><ul>
+<li><a class="reference external" href="">Spec-004: Add new database fields for public, active and schedule</a><ul>
 <li><a class="reference external" href="#goals">Goals</a></li>
 <li><a class="reference external" href="#implementation-plan">Implementation plan</a></li>
 </ul>
@@ -99,11 +106,8 @@ and adds new Comic instances to the database.
 </ul>
 
             <h4>Previous topic</h4>
-            <p class="topless"><a href="../001-multi-release/"
-                                  title="previous chapter">Spec-001: Multiple releases of a single comic strip</a></p>
-            <h4>Next topic</h4>
             <p class="topless"><a href="../003-multi-image/"
-                                  title="next chapter">Spec-003: Multiple images per comic release</a></p>
+                                  title="previous chapter">Spec-003: Multiple images per comic release</a></p>
           <div id="searchbox" style="display: none">
             <h3>Quick search</h3>
               <form class="search" action="../../search/" method="get">
@@ -132,9 +136,6 @@ and adds new Comic instances to the database.
              >modules</a> |</li>
         <li class="right" >
           <a href="../003-multi-image/" title="Spec-003: Multiple images per comic release"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../001-multi-release/" title="Spec-001: Multiple releases of a single comic strip"
              >previous</a> |</li>
         <li><a href="../../">comics v1.0.2.dev documentation</a> &raquo;</li>
           <li><a href="../../development/" >Development</a> &raquo;</li> 

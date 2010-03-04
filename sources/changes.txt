@@ -6,6 +6,21 @@ This change log is used to track all major changes to *comics* after the first
 versioned release.
 
 
+Unreleased
+==========
+
+**Features**
+
+- New crawler: ``petpeevy``
+- Add status page which for each comic shows when releases are fetched compared
+  to the comic's release schedule.
+
+**Bugfixes**
+
+- Update crawler ``evilinc``.
+- Update crawler ``uvod`` to fetch comment too.
+
+
 1.0.1 (2010-02-23)
 ==================
 
@@ -43,6 +58,7 @@ This release features 17 new crawlers and three updated crawlers, most by
 - Update crawler ``playervsplayer`` to not miss comics on days with blog posts.
 - Update crawler ``questionablecontent`` to include text below image.
 - Update crawler ``kalscartoon`` after target site change.
+- Update crawler ``butternutsquash`` after target site change.
 
 
 1.0.0 (2010-01-27)
