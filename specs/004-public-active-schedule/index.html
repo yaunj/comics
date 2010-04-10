@@ -21,6 +21,7 @@
     <script type="text/javascript" src="../../static/doctools.js"></script>
     <link rel="top" title="comics v1.0.2.dev documentation" href="../../" />
     <link rel="up" title="Development" href="../../development/" />
+    <link rel="next" title="Search" href="../../haystack/" />
     <link rel="prev" title="Spec-003: Multiple images per comic release" href="../003-multi-image/" /> 
   </head>
   <body>
@@ -33,6 +34,9 @@
         <li class="right" >
           <a href="../../modindex/" title="Global Module Index"
              accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../../haystack/" title="Search"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../003-multi-image/" title="Spec-003: Multiple images per comic release"
              accesskey="P">previous</a> |</li>
@@ -56,22 +60,34 @@
 </dl>
 <div class="section" id="goals">
 <h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Add <tt class="docutils literal"><span class="pre">COMCIS_PUBLIC</span></tt> setting to indicate if the installations is public
+<ul>
+<li><p class="first">Add <tt class="docutils literal"><span class="pre">COMICS_PUBLIC</span></tt> setting to indicate if the installations is public
 or private. Default value should be should be <tt class="xref docutils literal"><span class="pre">True</span></tt>. The proposed
-<tt class="docutils literal"><span class="pre">public</span></tt> field handling needs to respect this setting.</li>
-<li>Add <tt class="docutils literal"><span class="pre">public</span></tt> field that indicates if comic can be showed on public
-installations. All comics should have default value <tt class="xref docutils literal"><span class="pre">True</span></tt> and info
-loaded through <tt class="docutils literal"><span class="pre">loadmeta</span></tt>. A design decision needs to be made with
-respect to if public installs should crawl &#8220;private&#8221; comics.</li>
-<li>Add <tt class="docutils literal"><span class="pre">active</span></tt> field that can be used to indicate that a comic is no longer
-crawled. All comics should have default value <tt class="xref docutils literal"><span class="pre">True</span></tt> and info loaded
-through <tt class="docutils literal"><span class="pre">loadmeta</span></tt>. The status page should ignore inactive comics.</li>
-<li>Add <tt class="docutils literal"><span class="pre">schedule</span></tt> field to track comics schedule. This information will thus
-be moved from the crawler to the comic instance in the DB and loaded with
-<tt class="docutils literal"><span class="pre">loadmeta</span></tt>. Comics without a schedule should have <tt class="xref docutils literal"><span class="pre">None</span></tt> as schedule.
-This change has been proposed in response to better use of the new status
-page.</li>
+<tt class="docutils literal"><span class="pre">public</span></tt> field handling needs to respect this setting.</p>
+<p>Alternatively this setting can be avoided with <tt class="docutils literal"><span class="pre">loadmeta</span></tt> ignoring private
+comics by default (ie. add &#8211;include-private or only load private ones when
+explicitly specified).</p>
+</li>
+<li><p class="first">Add <tt class="docutils literal"><span class="pre">public</span></tt> field to Comic model that indicates if comic can be showed on
+public installations. All comics should have default value <tt class="xref docutils literal"><span class="pre">True</span></tt> and info
+loaded through <tt class="docutils literal"><span class="pre">loadmeta</span></tt>.</p>
+<p>A design decision needs to be made with respect to if public installs should
+crawl &#8220;private&#8221; comics, the options are:</p>
+<ol class="loweralpha simple">
+<li>Private comics are not loaded by <tt class="docutils literal"><span class="pre">loadmeta</span></tt>.</li>
+<li>Load all comics, but hide private comics unless logged in.</li>
+</ol>
+</li>
+<li><p class="first">Add <tt class="docutils literal"><span class="pre">active</span></tt> field to Comic model that can be used to indicate that a comic
+is no longer crawled. All comics should have default value <tt class="xref docutils literal"><span class="pre">True</span></tt> and info
+loaded through <tt class="docutils literal"><span class="pre">loadmeta</span></tt>. The status page should ignore inactive comics.</p>
+</li>
+<li><p class="first">Add <tt class="docutils literal"><span class="pre">schedule</span></tt> field Comic model to track comic&#8217;s schedule. This
+information will thus be moved from the crawler to the comic instance in the
+DB and loaded with <tt class="docutils literal"><span class="pre">loadmeta</span></tt>. Comics without a schedule should have
+<tt class="xref docutils literal"><span class="pre">None</span></tt> as schedule.  This change has been proposed in response to better
+use of the new status page.</p>
+</li>
 </ul>
 </div>
 <div class="section" id="implementation-plan">
@@ -80,7 +96,7 @@ page.</li>
 <li>Add new setting.</li>
 <li>Add new fields using south.</li>
 <li>Update base Meta object.</li>
-<li>Move schedule from crawler to meta.</li>
+<li>Move schedule from crawler to meta in all existing crawlers.</li>
 <li>Update status page to use &#8220;new&#8221; schedule.</li>
 <li>Remove old <tt class="docutils literal"><span class="pre">get_comic_schedule</span></tt> from utils.</li>
 <li>Update crawler and/or view code to respect public flag.</li>
@@ -108,6 +124,9 @@ page.</li>
             <h4>Previous topic</h4>
             <p class="topless"><a href="../003-multi-image/"
                                   title="previous chapter">Spec-003: Multiple images per comic release</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../../haystack/"
+                                  title="next chapter">Search</a></p>
           <div id="searchbox" style="display: none">
             <h3>Quick search</h3>
               <form class="search" action="../../search/" method="get">
@@ -134,6 +153,9 @@ page.</li>
         <li class="right" >
           <a href="../../modindex/" title="Global Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../../haystack/" title="Search"
+             >next</a> |</li>
         <li class="right" >
           <a href="../003-multi-image/" title="Spec-003: Multiple images per comic release"
              >previous</a> |</li>
